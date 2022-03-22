@@ -1,4 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
+import { TerminusModule } from '@nestjs/terminus';
 
 import { createRequestAgent } from '../test-helpers/create-request-agent';
 import { expectResponseCode } from '../test-helpers/expect-response-code';
@@ -6,7 +7,7 @@ import { withNestServerContext } from '../test-helpers/nest-app-context';
 import { HealthModule } from './health.module';
 
 const appContext = withNestServerContext({
-  imports: [HealthModule],
+  imports: [TerminusModule, HealthModule],
 });
 describe('GET /healthz', () => {
   it('/healthz (GET)', async () => {

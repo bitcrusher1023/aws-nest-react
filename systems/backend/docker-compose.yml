@@ -11,4 +11,17 @@ services:
       - source: ./scripts/docker/setup-local-postgres.sql
         target: /docker-entrypoint-initdb.d/setup-local-postgres.sql
         type: bind
+  s3:
+    environment:
+      - LOCALSTACK_SERVICES=s3
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    image: localstack/localstack
+    ports:
+      - '4566:4566'
+      - '4571:4571'
+    volumes:
+      - source: ./scripts/docker/setup-local-s3.sh
+        target: /docker-entrypoint-initaws.d/setup-local-s3.sh
+        type: bind
 version: '3.7'

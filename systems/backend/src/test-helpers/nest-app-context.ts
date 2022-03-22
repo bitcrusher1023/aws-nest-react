@@ -1,4 +1,5 @@
 import { afterAll, beforeAll } from '@jest/globals';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import {
   ClassSerializerInterceptor,
   INestApplication,
@@ -7,19 +8,22 @@ import {
 import type { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadata.interface';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
+import { CommonModule } from '../common/common.module';
 import { configuration } from '../config/configuration';
 import { getEnvFilePath } from '../config/getEnvFilePath';
 import { BadRequestException } from '../error-hanlding/bad-request.exception';
 import { ErrorCode } from '../error-hanlding/error-code.constant';
 import { GeneralExceptionFilter } from '../error-hanlding/general-exception.filter';
-import { DbOperationLogger } from '../logging/db-operation-logger';
+import type { DbOperationLogger } from '../logging/db-operation-logger';
 import { LoggingInterceptor } from '../logging/logging.interceptor';
 import { LoggingModule } from '../logging/logging.module';
 import { NestLogger } from '../logging/nest-logger';
+import { SeederModule } from './seeder/seeder.module';
 
 interface AppContext {
   app: INestApplication;
@@ -29,7 +33,7 @@ interface AppContext {
 export async function createTestApp(
   moduleMetadata: ModuleMetadata,
 ): Promise<AppContext> {
-  // @ts-expect-error ignore typing error here
+  // @ts-expect-error ignore this error
   const { db } = global['e2eConfig'];
 
   const module = Test.createTestingModule({
@@ -42,7 +46,7 @@ export async function createTestApp(
       LoggingModule,
       TypeOrmModule.forRootAsync({
         imports: [ConfigModule, LoggingModule],
-        inject: [ConfigService, DbOperationLogger],
+        inject: [ConfigService],
         async useFactory(
           configService: ConfigService,
           logger: DbOperationLogger,
@@ -52,7 +56,7 @@ export async function createTestApp(
             autoLoadEntities: true,
             logger,
             logging: true,
-            migrations: ['cjs-dist/migrations/*.cjs'],
+            migrations: ['dist/migrations/*.js'],
             migrationsRun: true,
             namingStrategy: new SnakeNamingStrategy() as any,
             schema: db.schema,
@@ -61,6 +65,8 @@ export async function createTestApp(
           };
         },
       }),
+      CommonModule,
+      SeederModule,
       ...(moduleMetadata.imports ?? []),
     ],
     providers: [

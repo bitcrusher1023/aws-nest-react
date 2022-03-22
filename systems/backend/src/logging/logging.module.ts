@@ -5,7 +5,7 @@ import { Logger } from './logger';
 import { NestLogger } from './nest-logger';
 
 @Module({
-  exports: [DbOperationLogger, NestLogger],
+  exports: [DbOperationLogger, NestLogger, Logger],
   providers: [Logger, DbOperationLogger, NestLogger],
 })
 export class LoggingModule {}

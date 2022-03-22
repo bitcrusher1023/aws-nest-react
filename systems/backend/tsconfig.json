@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "module": "commonjs",
+    "noEmit": false,
     "outDir": "./dist"
   },
 
-  "exclude": ["node_modules", "src/test", "dist", "**/*spec.ts"],
+  "exclude": ["node_modules", "src/test", "dist", "**/*spec.ts", "jest.config.js"],
   "extends": "@busybox/tsconfig",
 }

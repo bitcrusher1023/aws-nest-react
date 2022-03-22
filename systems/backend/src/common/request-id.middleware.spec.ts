@@ -15,7 +15,7 @@ describe('Test RequestIdMiddleware', () => {
       locals: {},
       setHeader: jest.fn(),
     };
-    new RequestIdMiddleware().use(request, response, jest.fn());
+    new RequestIdMiddleware().use(request, response, jest.fn() as any);
     expect(response.locals.reqId).toEqual('foobar');
   });
 
@@ -31,7 +31,7 @@ describe('Test RequestIdMiddleware', () => {
       locals: {},
       setHeader: jest.fn(),
     };
-    new RequestIdMiddleware().use(request, response, jest.fn());
+    new RequestIdMiddleware().use(request, response, jest.fn() as any);
     expect(response.locals.reqId).toEqual('foobar');
   });
 
@@ -45,7 +45,7 @@ describe('Test RequestIdMiddleware', () => {
       locals: {},
       setHeader: jest.fn(),
     };
-    new RequestIdMiddleware().use(request, response, jest.fn());
+    new RequestIdMiddleware().use(request, response, jest.fn() as any);
     expect(response.locals.reqId).toBeDefined();
   });
 });

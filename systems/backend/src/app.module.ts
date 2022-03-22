@@ -1,5 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -7,9 +7,13 @@ import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
+import { CommonModule } from './common/common.module';
+import { RequestIdMiddleware } from './common/request-id.middleware';
+import { RequestStartTimeMiddleware } from './common/request-start-time.middleware';
 import { configuration } from './config/configuration';
 import { getEnvFilePath } from './config/getEnvFilePath';
 import { GeneralExceptionFilter } from './error-hanlding/general-exception.filter';
+import { GameGalleryModule } from './game-gallery/game-gallery.module';
 import { HealthModule } from './health-check/health.module';
 import { DbOperationLogger } from './logging/db-operation-logger';
 import { LoggingInterceptor } from './logging/logging.interceptor';
@@ -47,9 +51,13 @@ import { LoggingModule } from './logging/logging.module';
         };
       },
     }),
+    CommonModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      autoSchemaFile: true,
       driver: ApolloDriver,
+      sortSchema: true,
     }),
+    GameGalleryModule,
     TerminusModule,
     HealthModule,
   ],
@@ -64,4 +72,10 @@ import { LoggingModule } from './logging/logging.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RequestStartTimeMiddleware, RequestIdMiddleware)
+      .forRoutes('*');
+  }
+}

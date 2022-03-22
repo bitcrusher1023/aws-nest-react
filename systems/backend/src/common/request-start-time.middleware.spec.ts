@@ -8,7 +8,7 @@ describe('Test RequestIdMiddleware', () => {
     const response: any = {
       locals: {},
     };
-    new RequestStartTimeMiddleware().use(request, response, jest.fn());
+    new RequestStartTimeMiddleware().use(request, response, jest.fn() as any);
     expect(response.locals.startAt).toBeDefined();
   });
 });
