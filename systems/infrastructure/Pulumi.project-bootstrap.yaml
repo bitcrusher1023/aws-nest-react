@@ -1,0 +1,5 @@
+encryptionsalt: v1:aiuHH/IZbgI=:v1:YyXe5yfBNJRNiy64:QoollibRBeLCfgrYHD/3GLBWzuu1Fw==
+config:
+  aws:region: eu-west-2
+  prefix:name: project-bootstrap
+  rds:user: dbuser

@@ -1,0 +1,25 @@
+
+services:
+  migration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - migration-db
+      - migration-redis
+    entrypoint: 'npm run migration:up'
+    env_file:
+      - .env
+    environment:
+      - DATABASE_CONNECTION_URL=postgres://${USER}:dev@migration-db:5432/dev
+      - REDIS_HOST=redis://migration-redis:6379
+  migration-db:
+    environment:
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=dev
+    image: postgres:13-alpine
+    volumes:
+      - source: ./scripts/docker/setup-local-postgres.sql
+        target: /docker-entrypoint-initdb.d/setup-local-postgres.sql
+        type: bind
+version: '3.7'

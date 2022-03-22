@@ -1,0 +1,14 @@
+
+services:
+  db:
+    environment:
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=dev
+    image: postgres:13-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - source: ./scripts/docker/setup-local-postgres.sql
+        target: /docker-entrypoint-initdb.d/setup-local-postgres.sql
+        type: bind
+version: '3.7'

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+set -ex
+npx lerna exec --concurrency 1 --stream -- bash scripts/pre-push.sh

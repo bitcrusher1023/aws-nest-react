@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "pg": "8.7.3"
+  },
+  "engines": {
+    "node": ">=14",
+    "yarn": "Use npm"
+  },
+  "license": "MIT",
+  "main": "bin/index.js",
+  "name": "test-app",
+  "type": "module",
+  "version": "0.0.0"
+}

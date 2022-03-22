@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./bin"
+  },
+  "extends": "@busybox/tsconfig"
+}

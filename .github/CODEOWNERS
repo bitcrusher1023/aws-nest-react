@@ -1,0 +1,6 @@
+*       @davidNHK
+**/package.json @github-actions[bot]
+**/package-lock.json @github-actions[bot]
+.github/*.yml @github-actions[bot]
+**/docker-compose-* @github-actions[bot]
+**/Dockerfile @github-actions[bot]

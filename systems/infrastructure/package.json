@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "@pulumi/aws": "4.23.0",
+    "@pulumi/awsx": "0.33.0",
+    "@pulumi/pulumi": "3.26.1",
+    "@pulumi/random": "4.4.1",
+    "lodash.camelcase": "4.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.17.6",
+    "@babel/core": "7.17.8",
+    "@babel/plugin-proposal-class-properties": "7.16.7",
+    "@babel/plugin-proposal-decorators": "7.17.8",
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-typescript": "7.16.7",
+    "@busybox/eslint-config": "5.9.1",
+    "@busybox/tsconfig": "1.7.1",
+    "@types/lodash.camelcase": "4.3.6",
+    "@types/node": "17.0.22",
+    "babel-plugin-transform-typescript-metadata": "0.3.2",
+    "eslint": "8.11.0"
+  },
+  "engines": {
+    "node": ">=14",
+    "yarn": "Use npm"
+  },
+  "license": "MIT",
+  "main": "bin/index.js",
+  "name": "infrastructure",
+  "scripts": {
+    "build": "npx babel --config-file ./.babelrc.esm.mjs --out-dir ./bin --extensions .ts --ignore ./src/aws/ecr/node_modules --copy-files --no-copy-ignored ./src",
+    "eslint": "eslint --ext=json,ts,yml"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}

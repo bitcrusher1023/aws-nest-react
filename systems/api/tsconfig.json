@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "@api-test-helpers/*": ["./src/test/helpers/*"],
+      "@api/*": ["./src/*"]
+    }
+  },
+
+  "exclude": ["node_modules", "src/test", "dist", "**/*spec.ts"],
+  "extends": "@busybox/tsconfig",
+  "ts-node": {
+    "moduleTypes": {
+      "jest.config.ts": "cjs"
+    }
+  }
+}
