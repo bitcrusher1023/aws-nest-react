@@ -1,6 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
-import fs from 'fs';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 import { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
