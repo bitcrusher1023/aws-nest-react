@@ -6,13 +6,16 @@ Template repo with [lerna](https://github.com/lerna/lerna),
 [Redis](https://redis.io/),
 [TypeORM](https://typeorm.io/#/)
 
-Setup
+Development
 
 ```sh
 docker compose up -d
 npm install
 npx lerna bootstrap
-npx lerna run --stream start:dev
+npx lerna exec --stream \
+--scope '{backend,frontend}' -- bash scripts/setup.sh 
+npx lerna exec --stream \
+--scope '{backend,frontend}' -- bash scripts/server.sh 
 ```
 
 Bump version
