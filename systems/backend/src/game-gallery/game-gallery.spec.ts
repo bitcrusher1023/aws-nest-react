@@ -1,30 +1,35 @@
 import { describe, expect, it } from '@jest/globals';
-import {
-  ApolloDriver,
-  ApolloDriverConfig,
-  getApolloServer,
-} from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
+import { getApolloServer } from '@nestjs/apollo';
 import { randomUUID } from 'crypto';
 import gql from 'graphql-tag';
 
 import { createRequestAgent } from '../test-helpers/create-request-agent';
 import { expectResponseCode } from '../test-helpers/expect-response-code';
 import { withNestServerContext } from '../test-helpers/nest-app-context';
-import { GameGalleryModule } from './game-gallery.module';
 
 const appContext = withNestServerContext({
-  imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: true,
-      driver: ApolloDriver,
-      sortSchema: true,
-    }),
-    GameGalleryModule,
-  ],
+  imports: [],
 });
 
 describe('Game gallery Resolver', () => {
+  it('upload game box art', async () => {
+    const app = appContext.app;
+    const {
+      body: {
+        data: { uploadBoxArt },
+      },
+    } = await createRequestAgent(app.getHttpServer())
+      .post('/graphql')
+      .field(
+        'operations',
+        '{"query": "mutation uploadBoxArt($file: Upload!) {uploadBoxArt(file: $file) {url}}"}',
+      )
+      .field('map', '{ "0": ["variables.file"] }')
+      .attach('0', `${__dirname}/__fixtures__/elden-ring.jpeg`)
+      .expect(expectResponseCode({ expectedStatusCode: 200 }));
+
+    expect(uploadBoxArt.url).toBeDefined();
+  });
   it('mutation addGameToLibrary', async () => {
     const app = appContext.app;
     const server = getApolloServer(app);
@@ -87,7 +92,6 @@ describe('Game gallery Resolver', () => {
     expect(resp.errors).toBeUndefined();
     expect(resp?.data?.['gameList']).toHaveLength(2);
   });
-
   it('query game', async () => {
     const app = appContext.app;
 

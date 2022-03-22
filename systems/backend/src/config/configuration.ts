@@ -27,11 +27,25 @@ const configSchema = convict({
     env: 'NODE_ENV',
     format: ['test', 'development', 'production'],
   },
-
   port: {
     default: null,
     env: 'PORT',
     format: 'port',
+  },
+
+  s3: {
+    asset: {
+      bucket: {
+        default: null,
+        env: 'S3_ASSET_BUCKET',
+        format: String,
+      },
+    },
+    region: {
+      default: null,
+      env: 'S3_REGION',
+      format: String,
+    },
   },
 });
 
