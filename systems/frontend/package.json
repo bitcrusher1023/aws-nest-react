@@ -1,0 +1,46 @@
+{
+  "dependencies": {
+    "@emotion/react": "11.8.2",
+    "@emotion/styled": "11.8.1",
+    "@mui/material": "5.5.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-hook-form": "7.28.1",
+    "react-router-dom": "6.2.2"
+  },
+  "devDependencies": {
+    "@busybox/eslint-config": "5.9.1",
+    "@busybox/tsconfig": "1.7.1",
+    "@stylelint/postcss-css-in-js": "0.37.2",
+    "@types/react": "17.0.33",
+    "@types/react-dom": "17.0.10",
+    "@vitejs/plugin-react": "1.0.7",
+    "eslint": "8.11.0",
+    "postcss-syntax": "0.36.2",
+    "stylelint": "14.6.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-order": "5.0.0",
+    "typescript": "4.5.4",
+    "vite": "2.8.0",
+    "vitest": "0.7.7"
+  },
+  "engines": {
+    "node": ">=14",
+    "yarn": "Use npm"
+  },
+  "license": "MIT",
+  "name": "frontend",
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "coverage": "vitest run --coverage",
+    "dev": "vite",
+    "eslint": "eslint --ext=json,ts,tsx,yml",
+    "lint:css": "npx stylelint './src/**/*.{tsx,css}'",
+    "lint:js": "npx eslint --ext=json,ts,tsx,yml --fix .",
+    "lint:js:ci": "npx eslint --ext=json,tsx,ts,yml .",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "version": "0.0.0"
+}
