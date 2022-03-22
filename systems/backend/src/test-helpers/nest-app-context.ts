@@ -1,26 +1,28 @@
 import { afterAll, beforeAll } from '@jest/globals';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import {
+  BadRequestException,
   ClassSerializerInterceptor,
   INestApplication,
   ValidationPipe,
 } from '@nestjs/common';
 import type { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadata.interface';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
+import { Reflector } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
+import { TerminusModule } from '@nestjs/terminus';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { graphqlUploadExpress } from 'graphql-upload';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { CommonModule } from '../common/common.module';
 import { configuration } from '../config/configuration';
 import { getEnvFilePath } from '../config/getEnvFilePath';
-import { BadRequestException } from '../error-hanlding/bad-request.exception';
 import { ErrorCode } from '../error-hanlding/error-code.constant';
-import { GeneralExceptionFilter } from '../error-hanlding/general-exception.filter';
+import { GameGalleryModule } from '../game-gallery/game-gallery.module';
+import { HealthModule } from '../health-check/health.module';
 import type { DbOperationLogger } from '../logging/db-operation-logger';
-import { LoggingInterceptor } from '../logging/logging.interceptor';
 import { LoggingModule } from '../logging/logging.module';
 import { NestLogger } from '../logging/nest-logger';
 import { SeederModule } from './seeder/seeder.module';
@@ -35,15 +37,29 @@ export async function createTestApp(
 ): Promise<AppContext> {
   // @ts-expect-error ignore this error
   const { db } = global['e2eConfig'];
-
   const module = Test.createTestingModule({
-    controllers: [...(moduleMetadata.controllers ?? [])],
+    controllers: moduleMetadata.controllers ?? [],
     imports: [
       ConfigModule.forRoot({
         envFilePath: getEnvFilePath(),
-        load: [configuration],
+        load: [
+          async () => {
+            const value = await configuration();
+            return value;
+          },
+        ],
       }),
       LoggingModule,
+      CommonModule,
+      GraphQLModule.forRoot<ApolloDriverConfig>({
+        autoSchemaFile: true,
+        driver: ApolloDriver,
+        sortSchema: true,
+      }),
+      GameGalleryModule,
+      TerminusModule,
+      HealthModule,
+      SeederModule,
       TypeOrmModule.forRootAsync({
         imports: [ConfigModule, LoggingModule],
         inject: [ConfigService],
@@ -58,31 +74,21 @@ export async function createTestApp(
             logging: true,
             migrations: ['dist/migrations/*.js'],
             migrationsRun: true,
-            namingStrategy: new SnakeNamingStrategy() as any,
+            namingStrategy: new SnakeNamingStrategy(),
             schema: db.schema,
             type,
             url: connectionURL,
           };
         },
       }),
-      CommonModule,
-      SeederModule,
       ...(moduleMetadata.imports ?? []),
     ],
-    providers: [
-      {
-        provide: APP_FILTER,
-        useClass: GeneralExceptionFilter,
-      },
-      {
-        provide: APP_INTERCEPTOR,
-        useClass: LoggingInterceptor,
-      },
-      ...(moduleMetadata.providers ?? []),
-    ],
+
+    providers: moduleMetadata.providers ?? [],
   });
   const moduleRef = await module.compile();
   const app = moduleRef.createNestApplication();
+  app.use(graphqlUploadExpress());
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector), {
       groups: ['e2e-test'],
