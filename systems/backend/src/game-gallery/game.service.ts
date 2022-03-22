@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOperator, ILike, Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 import type { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
 import type { GetGameListArgs } from './dto/get-game-list.args';
@@ -12,8 +12,6 @@ export class GameService {
     @InjectRepository(GameEntity)
     private gameRepository: Repository<GameEntity>,
   ) {}
-
-  uploadBoxArtImage() {}
 
   fineGamesList(args: GetGameListArgs) {
     const { genre, name, userId } = args;
