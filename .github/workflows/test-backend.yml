@@ -1,0 +1,26 @@
+name: Test systems/backend
+
+on:
+  push:
+    branches:
+      - development
+      - master
+    paths:
+      - 'systems/backend/**'
+  pull_request:
+    paths:
+      - 'systems/backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.0.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+      - run: bash ./scripts/setup.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash scripts/ci/setup.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash scripts/ci/test.sh

@@ -16,6 +16,7 @@
     "start:dev": "lerna run --parallel start:dev"
   },
   "dependencies": {
+    "@nestjs/cli": "8.2.4",
     "lerna": "4.0.0"
   },
   "devDependencies": {

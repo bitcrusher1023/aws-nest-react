@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "commonjs",
+    "outDir": "./dist"
+  },
+
+  "exclude": ["node_modules", "src/test", "dist", "**/*spec.ts"],
+  "extends": "@busybox/tsconfig",
+}
