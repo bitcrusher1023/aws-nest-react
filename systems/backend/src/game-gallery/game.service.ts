@@ -57,13 +57,8 @@ export class GameService {
     return this.gameRepository.findOneOrFail({ id });
   }
 
-  async createGame(userId: string, args: AddGameToLibraryArgs) {
-    const [createdGame] = await this.gameRepository.save([
-      {
-        userId,
-        ...args,
-      },
-    ]);
+  async createGame(args: AddGameToLibraryArgs) {
+    const [createdGame] = await this.gameRepository.save([args]);
     return createdGame;
   }
 }

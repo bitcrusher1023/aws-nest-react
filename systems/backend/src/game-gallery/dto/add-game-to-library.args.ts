@@ -5,6 +5,10 @@ import { IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
 export class AddGameToLibraryArgs {
   @Field({ nullable: false })
   @IsNotEmpty()
+  userId!: string;
+
+  @Field({ nullable: false })
+  @IsNotEmpty()
   name!: string;
 
   @Field({ nullable: false })

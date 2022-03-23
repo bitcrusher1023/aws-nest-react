@@ -51,6 +51,7 @@ describe('Game gallery Resolver', () => {
           platform: 'PS4',
           publisher: 'SONY INTERACTIVE ENTERTAINMENT',
           releaseDate: '2022-03-22',
+          userId: randomUUID(),
         },
       },
     });

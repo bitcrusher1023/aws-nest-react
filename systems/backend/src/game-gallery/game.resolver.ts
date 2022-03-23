@@ -1,5 +1,4 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { randomUUID } from 'crypto';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 import { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
@@ -11,8 +10,6 @@ import { UploadedResult } from './models/upload-result.model';
 
 @Resolver(() => Game)
 export class GameResolver {
-  userId = randomUUID(); // hardcode value to keep it simple
-
   constructor(private gameService: GameService) {}
 
   @Query(() => [Game])
@@ -40,6 +37,6 @@ export class GameResolver {
 
   @Mutation(() => Game)
   async addGameToLibrary(@Args('data') args: AddGameToLibraryArgs) {
-    return this.gameService.createGame(this.userId, args);
+    return this.gameService.createGame(args);
   }
 }
