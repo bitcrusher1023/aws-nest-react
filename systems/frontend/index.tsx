@@ -1,9 +1,10 @@
-import './index.css';
+// import 'vite/modulepreload-polyfill';
+import './src/index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import App from './src/App';
 
 ReactDOM.render(
   <React.StrictMode>

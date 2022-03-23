@@ -1,21 +1,34 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
+import path from 'path';
 
 import { AppModule } from './app.module';
 import { BadRequestException } from './error-hanlding/bad-request.exception';
 import { ErrorCode } from './error-hanlding/error-code.constant';
+import { NONCE } from './frontend/frontend.constants';
 import { Logger } from './logging/logger';
 import { NestLogger } from './logging/nest-logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new NestLogger(new Logger()),
   });
+  const config = app.get(ConfigService);
 
-  app.use(helmet());
-
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          'connect-src': '*', // TODO: Anti pattern but let ignore in code test
+          'default-src': ['strict-dynamic', `'nonce-${app.get(NONCE)}'`],
+          'script-src': null,
+        },
+      },
+    }),
+  );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.useGlobalPipes(
@@ -31,11 +44,16 @@ async function bootstrap() {
       whitelist: false,
     }),
   );
+  const isDevelop = config.get('env') === 'development';
+  if (isDevelop)
+    app.useStaticAssets(path.join(__dirname, '..', '..', 'frontend'));
+  app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
 
   app.enableShutdownHooks();
-  const config = app.get(ConfigService);
   const logger = app.get(NestLogger);
+  const port = config.get<number>('port')!;
   app.useLogger(logger);
-  await app.listen(config.get<number>('port')!);
+  await app.listen(port);
 }
 bootstrap();

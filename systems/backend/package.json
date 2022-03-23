@@ -19,6 +19,7 @@
     "dotenv": "16.0.0",
     "graphql": "16.3.0",
     "graphql-upload": "13.0.0",
+    "hbs": "4.2.0",
     "helmet": "5.0.2",
     "luxon": "2.3.1",
     "pg": "8.7.3",

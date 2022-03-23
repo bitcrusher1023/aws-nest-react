@@ -1,46 +1,50 @@
-import './App.css';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback } from 'react';
 
-import { useState } from 'react';
+import ApolloClientProvider from './ApolloClient.context';
 
-import logo from './logo.svg';
+const ADD_GAME_TO_LIST = gql`
+  mutation addGameToLibrary($data: AddGameToLibraryArgs!) {
+    addGameToLibrary(data: $data) {
+      id
+    }
+  }
+`;
+function CreateGameForm() {
+  const [createGameMutation, { called, data, loading }] =
+    useMutation(ADD_GAME_TO_LIST);
+  const createGame = useCallback(async () => {
+    await createGameMutation({
+      variables: {
+        data: {
+          boxArtImageUrl:
+            'https://gonintendo.com/uploads/file_upload/upload/78551/medium_futari-deefbc81nyanko-daisensou-box-art.png',
+          genre: 'FIGHTING',
+          name: 'GOD OF WAR',
+          numberOfPlayers: 4,
+          platform: 'PS4',
+          publisher: 'SONY INTERACTIVE ENTERTAINMENT',
+          releaseDate: '2022-03-22',
+          userId: '1ec57d7a-67be-42d0-8a97-07e743e6efbc',
+        },
+      },
+    });
+  }, [createGameMutation]);
+  if (loading) return <div>Loading....</div>;
+  if (called)
+    return <div data-testid={'game-id'}>{data.addGameToLibrary.id}</div>;
+  return (
+    <button data-testid={'add-new-game'} onClick={createGame}>
+      Click to add record
+    </button>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img alt="logo" className="App-logo" src={logo} />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button onClick={() => setCount(count => count + 1)} type="button">
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <ApolloClientProvider>
+      <CreateGameForm />
+    </ApolloClientProvider>
   );
 }
 

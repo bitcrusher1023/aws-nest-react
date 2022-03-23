@@ -1,29 +1,19 @@
-import { Catch, Logger } from '@nestjs/common';
-import type { GqlExceptionFilter } from '@nestjs/graphql';
-import { ApolloError } from 'apollo-server-errors';
+import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
+import type { Request } from 'express';
 
-import { err } from '../logging/formats/err';
-import { ErrorCode } from './error-code.constant';
+import { catchGraphqlError } from './catch-graphql-error';
+import { catchHttpError } from './catch-http-error';
 
 @Catch()
-export class GeneralExceptionFilter implements GqlExceptionFilter {
+export class GeneralExceptionFilter implements ExceptionFilter {
   private logger = new Logger(GeneralExceptionFilter.name);
 
-  catch(exception: Error) {
-    const httpException =
-      exception instanceof ApolloError
-        ? exception
-        : new ApolloError(exception.message, ErrorCode.UnhandledError);
-    httpException.stack = exception.stack as string;
+  catch(exception: Error, host: ArgumentsHost) {
+    const req = host.switchToHttp().getRequest<Request>();
+    const url = req?.url;
 
-    this.logger.error(
-      {
-        duration: 0,
-        err: err(httpException),
-        message: 'Access Log',
-      },
-      exception.stack,
-    );
-    throw httpException;
+    if (!url || url === '/graphql')
+      throw catchGraphqlError(this.logger, exception, host);
+    catchHttpError(this.logger, exception, host);
   }
 }
