@@ -71,7 +71,6 @@ export async function createTestApp(
           return {
             autoLoadEntities: true,
             logger,
-            logging: true,
             migrations: ['dist/migrations/*.js'],
             migrationsRun: true,
             namingStrategy: new SnakeNamingStrategy(),

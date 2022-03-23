@@ -31,7 +31,6 @@ function generateTestId(testPath) {
 
 async function setupDB(testId) {
   const conn = await createConnection({
-    logging: true,
     type: 'postgres',
     url: process.env['DATABASE_CONNECTION_URL'],
   });

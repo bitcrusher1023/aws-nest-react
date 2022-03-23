@@ -11,7 +11,6 @@ dotenv.config({ path: '.env.test' });
 
 module.exports = async function globalSetup() {
   const conn = await createConnection({
-    logging: true,
     type: 'postgres',
     url: process.env['DATABASE_CONNECTION_URL'],
   });
