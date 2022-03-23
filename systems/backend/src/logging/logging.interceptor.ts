@@ -19,7 +19,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const ctx = GqlExecutionContext.create(context);
 
     return next.handle().pipe(
-      tap((data) => {
+      tap(data => {
         this.logger.log({
           data,
           duration: 0,
