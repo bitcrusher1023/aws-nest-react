@@ -54,7 +54,7 @@ import { LoggingModule } from './logging/logging.module';
     }),
     CommonModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: true,
+      autoSchemaFile: 'schema.graphql',
       driver: ApolloDriver,
       sortSchema: true,
     }),

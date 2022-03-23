@@ -52,7 +52,7 @@ export async function createTestApp(
       LoggingModule,
       CommonModule,
       GraphQLModule.forRoot<ApolloDriverConfig>({
-        autoSchemaFile: true,
+        autoSchemaFile: 'schema.graphql',
         driver: ApolloDriver,
         sortSchema: true,
       }),

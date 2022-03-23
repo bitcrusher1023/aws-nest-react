@@ -1,0 +1,48 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddGameToLibraryArgs {
+  boxArtImageUrl: String
+  genre: String!
+  name: String!
+  numberOfPlayers: Float!
+  platform: String!
+  publisher: String!
+  releaseDate: Date!
+  userId: String!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Game {
+  boxArtImageUrl: String
+  createdAt: Date!
+  genre: String!
+  id: ID!
+  name: String!
+  numberOfPlayers: Float!
+  platform: String!
+  publisher: String!
+  releaseDate: Date!
+  updatedAt: Date!
+}
+
+type Mutation {
+  addGameToLibrary(data: AddGameToLibraryArgs!): Game!
+  uploadBoxArt(file: Upload!): UploadedResult!
+}
+
+type Query {
+  game(id: ID!): Game!
+  gameList(genre: String, name: String, userId: ID): [Game!]!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadedResult {
+  id: ID!
+  url: String!
+}
