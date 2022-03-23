@@ -20,7 +20,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          cache-dependency-path: '**/package-lock.json'
       - run: bash ./scripts/setup.sh
       - run: npx lerna exec --stream --concurrency 1 --scope='{backend,frontend}' -- bash scripts/ci/setup.sh
       - run: npx lerna exec --stream --concurrency 1 --scope=frontend -- bash scripts/ci/test.sh
