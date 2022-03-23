@@ -75,9 +75,9 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "<rootDir>/src/**/*.ts",
-      "!<rootDir>/src/**/*.spec.ts",
-      "!<rootDir>/src/migrations/*.ts"
+      "<rootDir>/**/*.ts",
+      "!<rootDir>/**/*.spec.ts",
+      "!<rootDir>/migrations/*.ts"
     ],
     "coverageDirectory": "<rootDir>/../coverage",
     "globalSetup": "<rootDir>/test-helpers/jest/e2e-global-setup.js",

@@ -15,9 +15,7 @@ describe('Game gallery Resolver', () => {
   it('upload game box art', async () => {
     const app = appContext.app;
     const {
-      body: {
-        data: { uploadBoxArt },
-      },
+      body: { data, errors },
     } = await createRequestAgent(app.getHttpServer())
       .post('/graphql')
       .field(
@@ -27,8 +25,9 @@ describe('Game gallery Resolver', () => {
       .field('map', '{ "0": ["variables.file"] }')
       .attach('0', `${__dirname}/__fixtures__/elden-ring.jpeg`)
       .expect(expectResponseCode({ expectedStatusCode: 200 }));
-
-    expect(uploadBoxArt.url).toBeDefined();
+    expect(errors).toBeUndefined();
+    expect(data.uploadBoxArt).toBeDefined();
+    expect(data.uploadBoxArt.url).toBeDefined();
   });
   it('mutation addGameToLibrary', async () => {
     const app = appContext.app;

@@ -52,7 +52,7 @@ export async function createTestApp(
       LoggingModule,
       CommonModule,
       GraphQLModule.forRoot<ApolloDriverConfig>({
-        autoSchemaFile: true,
+        autoSchemaFile: 'schema.graphql',
         driver: ApolloDriver,
         sortSchema: true,
       }),
@@ -71,7 +71,6 @@ export async function createTestApp(
           return {
             autoLoadEntities: true,
             logger,
-            logging: true,
             migrations: ['dist/migrations/*.js'],
             migrationsRun: true,
             namingStrategy: new SnakeNamingStrategy(),

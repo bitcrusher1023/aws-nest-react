@@ -14,6 +14,6 @@ export const WinstonConfig: LoggerOptions = {
       : [format.json()]),
   ),
   level: Level.info,
-  silent: process.env['NODE_ENV'] !== 'production',
+  silent: true,
   transports: [new transports.Console({})],
 };
