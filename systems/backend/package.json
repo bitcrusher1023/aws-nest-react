@@ -2,7 +2,7 @@
   "author": "",
   "dependencies": {
     "@aws-sdk/client-s3": "3.55.0",
-    "@nestjs/apollo": "10.0.7",
+    "@nestjs/apollo": "10.0.8",
     "@nestjs/common": "8.0.0",
     "@nestjs/config": "2.0.0",
     "@nestjs/core": "8.0.0",
