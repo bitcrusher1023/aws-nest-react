@@ -21,6 +21,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          cache-dependency-path: '**/package-lock.json'
       - run: bash ./scripts/setup.sh
       - run: bash ./scripts/lint.sh
