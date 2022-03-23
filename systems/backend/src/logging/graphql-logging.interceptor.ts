@@ -12,10 +12,12 @@ import { tap } from 'rxjs/operators';
 import { graphql } from './formats/graphql';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
-  private logger = new Logger(LoggingInterceptor.name);
+export class GraphqlLoggingInterceptor implements NestInterceptor {
+  private logger = new Logger(GraphqlLoggingInterceptor.name);
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const req = context.switchToHttp().getRequest<Request>();
+    if (!req?.url || req?.url !== '/graphql') return next.handle();
     const ctx = GqlExecutionContext.create(context);
 
     return next.handle().pipe(

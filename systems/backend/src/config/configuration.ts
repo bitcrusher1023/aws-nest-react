@@ -1,5 +1,7 @@
 import convict from 'convict';
 
+import { AppEnvironment } from './config.constants';
+
 convict.addFormat({
   coerce(val: any): any {
     return val.split(',');
@@ -25,7 +27,7 @@ const configSchema = convict({
   env: {
     default: 'development',
     env: 'NODE_ENV',
-    format: ['test', 'development', 'production'],
+    format: Object.values(AppEnvironment),
   },
   port: {
     default: null,

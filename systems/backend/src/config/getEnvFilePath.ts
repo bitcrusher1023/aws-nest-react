@@ -1,10 +1,12 @@
+import { AppEnvironment } from './config.constants';
+
 export function getEnvFilePath() {
-  const nodeEnv = process.env['NODE_ENV'] ?? 'development';
-  if (nodeEnv === 'development') {
+  const nodeEnv = process.env['NODE_ENV'] ?? AppEnvironment.DEV;
+  if (nodeEnv === AppEnvironment.DEV) {
     return '.env';
   }
 
-  if (nodeEnv === 'test') {
+  if (nodeEnv === AppEnvironment.TEST) {
     return '.env.test';
   }
 

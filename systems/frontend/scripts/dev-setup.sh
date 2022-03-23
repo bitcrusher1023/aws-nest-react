@@ -1,4 +1,4 @@
 #!/bin/sh
 
 set -e
-npm run build
+echo "No Op"

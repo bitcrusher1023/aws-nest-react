@@ -1,24 +1,24 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { graphqlUploadExpress } from 'graphql-upload';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { CommonModule } from './common/common.module';
 import { RequestIdMiddleware } from './common/request-id.middleware';
 import { RequestStartTimeMiddleware } from './common/request-start-time.middleware';
 import { configuration } from './config/configuration';
 import { getEnvFilePath } from './config/getEnvFilePath';
+import { DatabaseModule } from './database/database.module';
 import { GeneralExceptionFilter } from './error-hanlding/general-exception.filter';
+import { FrontendModule } from './frontend/frontend.module';
 import { GameGalleryModule } from './game-gallery/game-gallery.module';
 import { HealthModule } from './health-check/health.module';
-import { DbOperationLogger } from './logging/db-operation-logger';
-import { LoggingInterceptor } from './logging/logging.interceptor';
+import { GraphqlLoggingInterceptor } from './logging/graphql-logging.interceptor';
 import { LoggingModule } from './logging/logging.module';
+import { SeederModule } from './test-helpers/seeder/seeder.module';
 
 @Module({
   controllers: [],
@@ -33,25 +33,7 @@ import { LoggingModule } from './logging/logging.module';
       ],
     }),
     LoggingModule,
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule, LoggingModule],
-      inject: [ConfigService, DbOperationLogger],
-      async useFactory(
-        configService: ConfigService,
-        logger: DbOperationLogger,
-      ) {
-        const { connectionURL, type } = configService.get('database');
-        return {
-          autoLoadEntities: true,
-          logger: logger,
-          migrations: ['dist/migrations/*'],
-          migrationsRun: true,
-          namingStrategy: new SnakeNamingStrategy() as any,
-          type,
-          url: connectionURL,
-        };
-      },
-    }),
+    DatabaseModule.forRoot(),
     CommonModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: 'schema.graphql',
@@ -61,6 +43,8 @@ import { LoggingModule } from './logging/logging.module';
     GameGalleryModule,
     TerminusModule,
     HealthModule,
+    SeederModule.forRoot(),
+    FrontendModule.forRoot(),
   ],
   providers: [
     {
@@ -69,7 +53,7 @@ import { LoggingModule } from './logging/logging.module';
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
+      useClass: GraphqlLoggingInterceptor,
     },
   ],
 })

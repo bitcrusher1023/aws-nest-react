@@ -1,0 +1,24 @@
+{
+  "baseUrl": "http://localhost:5333",
+  "chromeWebSecurity": false,
+  "component": {
+    "componentFolder": "src",
+    "testFiles": "**/*.spec.{tsx,ts}"
+  },
+  "defaultCommandTimeout": 60000,
+  "env": {
+    "NODE_ENV": "test",
+    "coverage": false
+  },
+  "pageLoadTimeout": 300000,
+  "projectId": "code-test",
+  "retries": {
+    "openMode": 0,
+    "runMode": 3
+  },
+  "screenshotOnRunFailure": false,
+  "testFiles": "**/*.spec.js",
+  "video": false,
+  "viewportHeight": 800,
+  "viewportWidth": 1280
+}
