@@ -12,7 +12,7 @@
     "@busybox/eslint-config": "5.9.1",
     "@busybox/tsconfig": "1.7.1",
     "@stylelint/postcss-css-in-js": "0.37.2",
-    "@types/react": "17.0.33",
+    "@types/react": "17.0.42",
     "@types/react-dom": "17.0.10",
     "@vitejs/plugin-react": "1.0.7",
     "eslint": "8.11.0",
