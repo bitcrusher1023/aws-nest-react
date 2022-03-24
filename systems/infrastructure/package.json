@@ -16,7 +16,7 @@
     "@busybox/eslint-config": "5.9.1",
     "@busybox/tsconfig": "1.7.1",
     "@types/lodash.camelcase": "4.3.6",
-    "@types/node": "17.0.22",
+    "@types/node": "17.0.23",
     "babel-plugin-transform-typescript-metadata": "0.3.2",
     "eslint": "8.11.0"
   },
