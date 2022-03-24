@@ -182,6 +182,10 @@ function GameNumberOfPlayersField({
         message: "number of players can't less than 0",
         value: 0,
       },
+      required: {
+        message: 'number of players must be provided',
+        value: true,
+      },
     },
   });
 
