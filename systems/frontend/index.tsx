@@ -1,6 +1,3 @@
-// import 'vite/modulepreload-polyfill';
-import './src/index.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 

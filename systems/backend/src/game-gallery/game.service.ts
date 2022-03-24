@@ -30,16 +30,17 @@ export class GameService {
           }
         : {}),
     });
-    const key = `box-art/${id}-${filename}`;
+    const key = `/upload/box-art/${id}-${filename}`;
+    const bucket = this.config.get('s3.asset.bucket');
     await s3.send(
       new PutObjectCommand({
         ACL: 'public-read',
         Body: fileStream,
-        Bucket: this.config.get('s3.asset.bucket'),
+        Bucket: bucket,
         Key: key,
       }),
     );
-    return { id, url: key };
+    return { id, url: `http://localhost:4566/${bucket}/${key}` };
   }
 
   fineGamesList(args: GetGameListArgs) {
