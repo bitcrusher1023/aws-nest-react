@@ -1,6 +1,6 @@
 import CssBaseline from '@mui/material/CssBaseline';
 
-import GameLibraryPage from './GameLibrary.page';
+import GameLibraryPage from './GameLibraryPage/GameLibrary.page';
 import GlobalContextProvider from './GlobalContext.provider';
 import Layout from './Layout/Layout';
 

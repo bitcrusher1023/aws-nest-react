@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider as MuiThemeProvider } from '@mui/system';
 import type { PropsWithChildren } from 'react';
 
-const theme = createTheme({
+export const appTheme = createTheme({
   palette: {
     background: {
       paper: '#f5f7fa',
@@ -20,5 +20,5 @@ const theme = createTheme({
 export default function ThemeProvider({
   children,
 }: PropsWithChildren<unknown>) {
-  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+  return <MuiThemeProvider theme={appTheme}>{children}</MuiThemeProvider>;
 }

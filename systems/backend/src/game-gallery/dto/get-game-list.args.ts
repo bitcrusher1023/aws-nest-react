@@ -1,5 +1,5 @@
-import { ArgsType, Field, ID } from '@nestjs/graphql';
-import { IsOptional } from 'class-validator';
+import { ArgsType, Field, ID, Int } from '@nestjs/graphql';
+import { IsOptional, Max, Min } from 'class-validator';
 
 @ArgsType()
 export class GetGameListArgs {
@@ -9,9 +9,20 @@ export class GetGameListArgs {
 
   @Field({ nullable: true })
   @IsOptional()
-  genre?: string;
+  platform?: string;
 
   @Field(() => ID, { nullable: true })
   @IsOptional()
   userId?: string;
+
+  @Field(() => Int)
+  @Min(0)
+  @IsOptional()
+  offset = 0;
+
+  @Field(() => Int)
+  @Min(0)
+  @Max(100)
+  @IsOptional()
+  limit = 10;
 }

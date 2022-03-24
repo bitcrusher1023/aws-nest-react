@@ -1,7 +1,7 @@
 import { mount } from '@cypress/react';
 
+import GlobalContextProvider from '../GlobalContext.provider';
 import AddGameLibraryForm from './AddGameLibrary.form';
-import GlobalContextProvider from './GlobalContext.provider';
 
 function uploadBoxArt() {
   cy.get(`[data-testid='game-box-art-upload-input']`).selectFile(

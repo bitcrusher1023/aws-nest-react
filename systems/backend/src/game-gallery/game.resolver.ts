@@ -5,15 +5,15 @@ import { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
 import { GetGameArgs } from './dto/get-game.args';
 import { GetGameListArgs } from './dto/get-game-list.args';
 import { GameService } from './game.service';
-import { Game } from './models/game.model';
+import { Game, GameList } from './models/game.model';
 import { UploadedResult } from './models/upload-result.model';
 
 @Resolver(() => Game)
 export class GameResolver {
   constructor(private gameService: GameService) {}
 
-  @Query(() => [Game])
-  async gameList(@Args() where: GetGameListArgs) {
+  @Query(() => GameList)
+  async gameList(@Args() where: GetGameListArgs): Promise<GameList> {
     return this.gameService.fineGamesList(where);
   }
 
