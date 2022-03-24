@@ -32,6 +32,7 @@ const GET_GAME_LIST = gql`
           boxArtImageUrl
           platform
           name
+          publisher
         }
       }
       pageInfo {
@@ -47,6 +48,7 @@ export interface Game {
   id: string;
   name: string;
   platform: string;
+  publisher: string;
 }
 
 interface Data {

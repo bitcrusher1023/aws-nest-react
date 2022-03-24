@@ -51,7 +51,7 @@ export class GameService {
     if (name) where.push(['name', ILike(`%${name}%`)]);
     if (userId) where.push(['userId', userId]);
     const [records, totalCount] = await this.gameRepository.findAndCount({
-      order: { id: 'DESC' },
+      order: { updatedAt: 'DESC' },
       skip: args.offset,
       take: args.limit,
       where: Object.fromEntries(where),
