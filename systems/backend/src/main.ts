@@ -18,15 +18,19 @@ async function bootstrap() {
   });
   const config = app.get(ConfigService);
 
+  // TODO: Anti pattern for disable / allow on header
   app.use(
     helmet({
       contentSecurityPolicy: {
         directives: {
-          'connect-src': '*', // TODO: Anti pattern but let ignore in code test
+          'connect-src': '*',
           'default-src': ['strict-dynamic', `'nonce-${app.get(NONCE)}'`],
+          'img-src': '*',
           'script-src': null,
         },
       },
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
     }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

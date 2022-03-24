@@ -14,4 +14,6 @@ npx lerna exec --stream \
 --scope '{backend,frontend}' -- bash scripts/dev-setup.sh
 npx lerna exec --stream \
 --scope '{backend,frontend}' -- bash scripts/dev-server.sh
+
+Open http://localhost:5333 for dev
 ```

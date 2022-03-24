@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class AddGameToLibraryArgs {
@@ -32,7 +32,7 @@ export class AddGameToLibraryArgs {
   releaseDate!: Date;
 
   @Field({ nullable: true })
-  @IsUrl()
+  @IsString()
   @IsOptional()
   boxArtImageUrl?: string;
 }
