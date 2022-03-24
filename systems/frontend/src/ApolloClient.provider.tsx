@@ -11,12 +11,9 @@ const cache = new InMemoryCache({
 
           merge(existing = {}, incoming, { args: { offset } }: any) {
             const existingEdges = existing.edges?.slice(0) ?? [];
-            const edgesExist = existing.edges?.length > 0;
             const { __typename, edges, pageInfo, totalCount } = incoming;
             edges.forEach((edge: any, index: any) => {
-              if (edgesExist) {
-                existingEdges[offset + index + 1] = edge;
-              } else existingEdges[offset + index] = edge;
+              existingEdges[offset + index] = edge;
             });
             return {
               __typename,

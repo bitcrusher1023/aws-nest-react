@@ -52,12 +52,23 @@ function GameLibraryListItem({ game }: { game: Game }) {
           >
             {game.name}
           </Typography>
-          <Chip label={game.platform} />
+          <Chip
+            label={game.platform}
+            sx={{
+              textTransform: 'uppercase',
+            }}
+          />
         </Stack>
       </Stack>
 
       <Stack>
-        <Chip label={'Download'} />
+        <Chip
+          label={game.publisher}
+          sx={{
+            textTransform: 'uppercase',
+            width: '10rem',
+          }}
+        />
       </Stack>
     </Box>
   );

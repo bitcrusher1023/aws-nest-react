@@ -1,11 +1,22 @@
 # Code Challenge
 
-Template repo with [lerna](https://github.com/lerna/lerna),
-[GitHub Action](https://docs.github.com/en/actions),
-[NestJS](https://nestjs.com/),
-[TypeORM](https://typeorm.io/#/)
+![Working screenshot](./docs/working-screenshot.png)
 
-Development
+The easy way to review would be following [Development Section](#development)
+and read the [Code Review Section](#code-review)
+
+## Code Review
+
+[Endpoint exposed](./systems/backend/schema.graphql)
+
+[Frontend code related to feature](./systems/frontend/src/GameLibraryPage)
+
+[Backend code related to feature](./systems/backend/src/game-gallery)
+
+[Architecture decision record](./docs/adr)
+P.S. some of ADR document I circle back after finish coding, so it may out of order.
+
+## Development
 
 ```sh
 npm install
@@ -17,3 +28,40 @@ npx lerna exec --stream \
 
 Open http://localhost:5333 for dev
 ```
+
+## Missing features / Improvement points
+
+- Typescript cannot read cypress config - In a result,
+  I cannot add custom command without disable typescript in test
+
+- Seeder don’t user nests config - If I decide using framework
+  it should fully follow the syntax
+
+- CSP have \* - Anti pattern on security because it allowed more than I want
+
+- More test - Current only the graphql endpoint
+  and add game form have been tested
+
+- Consistent form field implementation - When I integrate react-hook-form
+  i not always use `useController`,
+  some input I will use `Controller` HOC that make reader feel very confusing
+
+- Share more code between backend and frontend - Especially some
+  enum value and type definition
+
+- Spinner when call API - When call API on frontend ,
+  I haven't include loading screen
+
+- More Form error handling ? - Not all input field on add game form
+  have implement validation rules
+
+- Apollo fetchMore logic is so complex - Because of incorrect API signature
+  I have implemented, I have to write merge / read cache function my self
+  in order to get pagination work
+
+- Record not found page - Currently when no record is found /
+  page not found it wouldn't have any clue
+
+- Deployment - I have half done setup on [here](./systems/infrastructure) which
+  can auto set up the infrastructure component I need,
+  but I not have enough time to continue make use of created component.
