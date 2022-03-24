@@ -3,8 +3,12 @@ import DatePicker from '@mui/lab/DatePicker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import Grid from '@mui/material/Grid';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,7 +16,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { PropsWithoutRef, useCallback } from 'react';
+import { PropsWithoutRef, useCallback, useState } from 'react';
 import {
   Control,
   Controller,
@@ -20,6 +24,9 @@ import {
   useController,
   useForm,
 } from 'react-hook-form';
+
+import { useGameList } from './GameList.provider';
+import userId from './user';
 
 interface AddGameFormInput {
   boxArtImageUrl: string;
@@ -175,6 +182,10 @@ function GameNumberOfPlayersField({
         message: "number of players can't less than 0",
         value: 0,
       },
+      required: {
+        message: 'number of players must be provided',
+        value: true,
+      },
     },
   });
 
@@ -209,28 +220,37 @@ function GameNumberOfPlayersField({
   );
 }
 
-export default function AddGameLibraryForm() {
+export default function AddGameLibraryForm({
+  cancelSubmit,
+  finishSubmit,
+}: {
+  cancelSubmit: () => void;
+  finishSubmit: () => void;
+}) {
   const { control, handleSubmit } = useForm<AddGameFormInput>({
     defaultValues: {},
     mode: 'onBlur',
   });
   const [createGameMutation, { data }] = useMutation(ADD_GAME_TO_LIST);
+  const { setFilter } = useGameList();
   const onSubmit: SubmitHandler<AddGameFormInput> = useCallback(
     async data => {
       await createGameMutation({
         variables: {
           data: {
             ...data,
-            userId: '1ec57d7a-67be-42d0-8a97-07e743e6efbc',
+            userId: userId,
           },
         },
       });
+      await setFilter?.(null, data.platform);
+      finishSubmit();
     },
-    [createGameMutation],
+    [createGameMutation, finishSubmit, setFilter],
   );
   return (
     <Container fixed sx={{ p: 2 }}>
-      <Typography data-testid={'created-game-id'} sx={{ display: 'hidden' }}>
+      <Typography data-testid={'created-game-id'} sx={{ display: 'none' }}>
         {data?.addGameToLibrary.id}
       </Typography>
       <Stack
@@ -330,14 +350,57 @@ export default function AddGameLibraryForm() {
           )}
         />
         <GameReleaseDateField control={control} />
-        <Button
-          data-testid={'submit-add-new-game-form'}
-          type={'submit'}
-          variant="contained"
-        >
-          Submit
-        </Button>
+        <Grid container rowSpacing={1}>
+          <Grid item md={6} xs={12}>
+            <Button
+              data-testid={'submit-add-new-game-form'}
+              sx={{ width: 1 }}
+              type={'submit'}
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <Button
+              data-testid={'cancel-add-new-game-form'}
+              onClick={cancelSubmit}
+              sx={{ width: 1 }}
+              variant="contained"
+            >
+              Cancel
+            </Button>
+          </Grid>
+        </Grid>
       </Stack>
     </Container>
+  );
+}
+
+export function AddGameLibraryFormDialog() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+  return (
+    <>
+      <Button color={'primary'} onClick={handleClickOpen} variant="contained">
+        Add game to library
+      </Button>
+      <Dialog onClose={handleClose} open={open}>
+        <DialogTitle>Add game to your library</DialogTitle>
+        <DialogContent>
+          <AddGameLibraryForm
+            cancelSubmit={handleClose}
+            finishSubmit={handleClose}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

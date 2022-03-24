@@ -29,14 +29,28 @@ type Game {
   updatedAt: Date!
 }
 
+type GameList {
+  edges: [GameNode!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type GameNode {
+  node: Game!
+}
+
 type Mutation {
   addGameToLibrary(data: AddGameToLibraryArgs!): Game!
   uploadBoxArt(file: Upload!): UploadedResult!
 }
 
+type PageInfo {
+  hasNextPage: Boolean!
+}
+
 type Query {
   game(id: ID!): Game!
-  gameList(genre: String, name: String, userId: ID): [Game!]!
+  gameList(limit: Int = 10, name: String, offset: Int = 0, platform: String, userId: ID): GameList!
 }
 
 """The `Upload` scalar type represents a file upload."""

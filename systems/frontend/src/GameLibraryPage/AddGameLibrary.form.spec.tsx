@@ -1,7 +1,7 @@
 import { mount } from '@cypress/react';
 
+import GlobalContextProvider from '../GlobalContext.provider';
 import AddGameLibraryForm from './AddGameLibrary.form';
-import GlobalContextProvider from './GlobalContext.provider';
 
 function uploadBoxArt() {
   cy.get(`[data-testid='game-box-art-upload-input']`).selectFile(
@@ -33,14 +33,18 @@ describe('AddGameLibraryForm', () => {
   it('should create record on db when submit form', () => {
     mount(
       <GlobalContextProvider>
-        <AddGameLibraryForm />
+        <AddGameLibraryForm
+          cancelSubmit={cy.stub()}
+          finishSubmit={cy.stub().as('finishSubmit')}
+        />
       </GlobalContextProvider>,
     );
     uploadBoxArt();
     fillAddGameLibraryForm();
     cy.get(`[data-testid='submit-add-new-game-form']`).click();
+    cy.get('@finishSubmit').should('have.been.called');
     cy.get(`[data-testid='created-game-id']`)
-      .should('be.visible')
+      .should('exist', { force: true })
       .then(el => {
         const gameId = el.text();
         cy.request({
@@ -55,7 +59,10 @@ describe('AddGameLibraryForm', () => {
   it('should should error when number of player less than 0', () => {
     mount(
       <GlobalContextProvider>
-        <AddGameLibraryForm />
+        <AddGameLibraryForm
+          cancelSubmit={cy.stub()}
+          finishSubmit={cy.stub().as('finishSubmit')}
+        />
       </GlobalContextProvider>,
     );
     cy.get(`[data-testid='number-of-players-input']`)
@@ -72,7 +79,10 @@ describe('AddGameLibraryForm', () => {
   it('should should error when missing box art', () => {
     mount(
       <GlobalContextProvider>
-        <AddGameLibraryForm />
+        <AddGameLibraryForm
+          cancelSubmit={cy.stub()}
+          finishSubmit={cy.stub().as('finishSubmit')}
+        />
       </GlobalContextProvider>,
     );
     fillAddGameLibraryForm();

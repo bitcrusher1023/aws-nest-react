@@ -34,3 +34,27 @@ export class Game {
   @Field()
   createdAt!: Date;
 }
+
+@ObjectType()
+class GameNode {
+  @Field()
+  node!: Game;
+}
+
+@ObjectType()
+class PageInfo {
+  @Field()
+  hasNextPage!: boolean;
+}
+
+@ObjectType()
+export class GameList {
+  @Field()
+  totalCount!: number;
+
+  @Field(() => [GameNode])
+  edges!: GameNode[];
+
+  @Field(() => PageInfo)
+  pageInfo!: PageInfo;
+}

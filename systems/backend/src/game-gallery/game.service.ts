@@ -9,6 +9,7 @@ import { ILike, Repository } from 'typeorm';
 import type { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
 import type { GetGameListArgs } from './dto/get-game-list.args';
 import { GameEntity } from './models/game.entity';
+import type { GameList } from './models/game.model';
 
 @Injectable()
 export class GameService {
@@ -43,15 +44,28 @@ export class GameService {
     return { id, url: `http://localhost:4566/${bucket}/${key}` };
   }
 
-  fineGamesList(args: GetGameListArgs) {
-    const { genre, name, userId } = args;
+  async fineGamesList(args: GetGameListArgs): Promise<GameList> {
+    const { name, platform, userId } = args;
     const where = [];
-    if (genre) where.push(['genre', ILike(`%${genre}%`)]);
+    if (platform) where.push(['platform', platform]);
     if (name) where.push(['name', ILike(`%${name}%`)]);
     if (userId) where.push(['userId', userId]);
-    return this.gameRepository.find({
+    const [records, totalCount] = await this.gameRepository.findAndCount({
+      order: { id: 'DESC' },
+      skip: args.offset,
+      take: args.limit,
       where: Object.fromEntries(where),
     });
+    const recordLength = records.length;
+    return {
+      edges: records.map(record => ({
+        node: record,
+      })),
+      pageInfo: {
+        hasNextPage: args.offset + recordLength < totalCount,
+      },
+      totalCount,
+    };
   }
 
   fineGame(id: string) {

@@ -56,6 +56,71 @@ describe('Game gallery Resolver', () => {
     });
     expect(resp.errors).toBeUndefined();
   });
+
+  it('query gameList by platform', async () => {
+    const app = appContext.app;
+
+    const server = getApolloServer(app);
+    const userId = randomUUID();
+    await createRequestAgent(app.getHttpServer())
+      .post('/test/seeder/game/')
+      .send({
+        items: Array.from({ length: 4 }).map(() => ({
+          boxArtImageUrl: 'https://www.google.com',
+          genre: 'FIGHTING',
+          name: 'GOD OF WAR',
+          numberOfPlayers: 4,
+          platform: 'PS5',
+          publisher: 'SONY INTERACTIVE ENTERTAINMENT',
+          releaseDate: '2022-03-22',
+          userId: userId,
+        })),
+      })
+      .expect(expectResponseCode({ expectedStatusCode: 201 }));
+    await createRequestAgent(app.getHttpServer())
+      .post('/test/seeder/game/')
+      .send({
+        items: Array.from({ length: 4 }).map(() => ({
+          boxArtImageUrl: 'https://www.google.com',
+          genre: 'FIGHTING',
+          name: 'GOD OF WAR',
+          numberOfPlayers: 4,
+          platform: 'PS4',
+          publisher: 'SONY INTERACTIVE ENTERTAINMENT',
+          releaseDate: '2022-03-22',
+          userId: userId,
+        })),
+      })
+      .expect(expectResponseCode({ expectedStatusCode: 201 }));
+    const GET_GAME_LIST = gql`
+      query queryGameList($userId: ID, $platform: String) {
+        gameList(userId: $userId, offset: 0, limit: 10, platform: $platform) {
+          edges {
+            node {
+              id
+            }
+          }
+          pageInfo {
+            hasNextPage
+          }
+          totalCount
+        }
+      }
+    `;
+    const resp = await server.executeOperation({
+      query: GET_GAME_LIST,
+      variables: {
+        platform: 'PS4',
+        userId: userId,
+      },
+    });
+    expect(resp.errors).toBeUndefined();
+    const result = resp?.data?.['gameList'];
+    expect(result.edges).toHaveLength(4);
+    expect(result.pageInfo.hasNextPage).toBeFalsy();
+    expect(result.totalCount).toEqual(4);
+  });
+
   it('query gameList', async () => {
     const app = appContext.app;
 
@@ -64,7 +129,7 @@ describe('Game gallery Resolver', () => {
     await createRequestAgent(app.getHttpServer())
       .post('/test/seeder/game/')
       .send({
-        items: Array.from({ length: 2 }).map(() => ({
+        items: Array.from({ length: 128 }).map(() => ({
           boxArtImageUrl: 'https://www.google.com',
           genre: 'FIGHTING',
           name: 'GOD OF WAR',
@@ -78,8 +143,16 @@ describe('Game gallery Resolver', () => {
       .expect(expectResponseCode({ expectedStatusCode: 201 }));
     const GET_GAME_LIST = gql`
       query queryGameList($userId: ID) {
-        gameList(userId: $userId) {
-          id
+        gameList(userId: $userId, offset: 0, limit: 10) {
+          edges {
+            node {
+              id
+            }
+          }
+          pageInfo {
+            hasNextPage
+          }
+          totalCount
         }
       }
     `;
@@ -90,7 +163,10 @@ describe('Game gallery Resolver', () => {
       },
     });
     expect(resp.errors).toBeUndefined();
-    expect(resp?.data?.['gameList']).toHaveLength(2);
+    const result = resp?.data?.['gameList'];
+    expect(result.edges).toHaveLength(10);
+    expect(result.pageInfo.hasNextPage).toBeTruthy();
+    expect(result.totalCount).toEqual(128);
   });
   it('query game', async () => {
     const app = appContext.app;
