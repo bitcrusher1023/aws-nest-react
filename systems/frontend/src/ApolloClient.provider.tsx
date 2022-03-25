@@ -7,9 +7,13 @@ const cache = new InMemoryCache();
 export default function ApolloClientProvider({
   children,
 }: PropsWithChildren<unknown>) {
+  const uri = import.meta.env.VITE_BACKEND_HOST;
   const client = new ApolloClient({
     cache,
-    link: createUploadLink({}),
+    link: createUploadLink({
+      uri: uri,
+    }),
+    uri: uri,
   });
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

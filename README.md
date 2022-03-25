@@ -26,7 +26,7 @@ npx lerna exec --stream \
 npx lerna exec --stream \
 --scope '{backend,frontend}' -- bash scripts/dev-server.sh
 
-Open http://localhost:5333 for dev
+Open http://localhost:3000 for dev
 ```
 
 ## Missing features / Improvement points

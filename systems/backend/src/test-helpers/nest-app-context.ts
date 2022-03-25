@@ -32,7 +32,6 @@ async function createTestingApp(
 ): Promise<NestExpressApplication> {
   const app = module.createNestApplication<NestExpressApplication>();
 
-  app.setViewEngine('hbs');
   app.enableShutdownHooks();
   const logger = app.get(NestLogger);
 

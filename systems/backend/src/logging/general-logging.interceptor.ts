@@ -30,8 +30,6 @@ export class GeneralLoggingInterceptor implements NestInterceptor {
   ): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
-    const isDefaultPath = request?.route?.path === '/*';
-    if (isDefaultPath) return next.handle();
     return next.handle().pipe(
       tap(data => {
         const { startAt } = response.locals;
