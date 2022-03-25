@@ -78,12 +78,12 @@ export default function GameListProvider({
 }: PropsWithChildren<unknown>) {
   const [platformFilter, setPlatformFilter] = useState('ALL');
   const [currentOffSet, setOffset] = useState(0);
-  const { data, error, fetchMore, loading, refetch, variables } = useQuery<
+  const { data, error, loading, refetch, variables } = useQuery<
     Data,
     {
       limit: number;
       offset: number;
-      platform?: string;
+      platform?: string | null;
       userId: string;
     }
   >(GET_GAME_LIST, {
@@ -104,14 +104,13 @@ export default function GameListProvider({
     async (_, page: number) => {
       const { limit } = variables!;
       const newOffset = (page - 1) * limit;
-      await fetchMore({
-        variables: {
-          offset: newOffset,
-        },
+      await refetch({
+        offset: newOffset,
+        platform: platformFilter === 'ALL' ? null : platformFilter,
       });
       setOffset(newOffset);
     },
-    [fetchMore, variables],
+    [platformFilter, refetch, variables],
   );
   const { currentPage, totalPage } = useMemo(() => {
     const { limit } = variables!;

@@ -55,10 +55,6 @@ Open http://localhost:5333 for dev
 - More Form error handling ? - Not all input field on add game form
   have implement validation rules
 
-- Apollo fetchMore logic is so complex - Because of incorrect API signature
-  I have implemented, I have to write merge / read cache function my self
-  in order to get pagination work
-
 - Record not found page - Currently when no record is found /
   page not found it wouldn't have any clue
 
