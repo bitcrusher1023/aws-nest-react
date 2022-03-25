@@ -4,7 +4,7 @@ import GlobalContextProvider from '../GlobalContext.provider';
 import AddGameLibraryForm from './AddGameLibrary.form';
 
 function uploadBoxArt() {
-  cy.get(`[data-testid='game-box-art-upload-input']`).selectFile(
+  cy.getBySel('game-box-art-upload-input').selectFile(
     'cypress/fixtures/elden-ring.jpeg',
     {
       force: true,
@@ -13,20 +13,17 @@ function uploadBoxArt() {
 }
 
 function fillAddGameLibraryForm() {
-  cy.get(`[data-testid='game-name-input']`).click().clear().type('ELDEN RING');
-  cy.get(`[data-testid='game-publisher-input']`)
+  cy.getBySel('game-name-input').click().clear().type('ELDEN RING');
+  cy.getBySel('game-publisher-input')
     .clear()
     .type('SONY INTERACTIVE ENTERTAINMENT');
 
-  cy.get(`[data-testid='game-platform-input']`).click();
-  cy.get(`[data-testid='game-platform-input-ps5']`).click();
-  cy.get(`[data-testid='number-of-players-input']`).click().clear().type('1');
-  cy.get(`[data-testid='genre-input']`).click();
-  cy.get(`[data-testid='genre-input-action']`).click();
-  cy.get(`[data-testid='release-date-input']`)
-    .click()
-    .clear()
-    .type('03/24/2022');
+  cy.getBySel('game-platform-input').click();
+  cy.getBySel('game-platform-input-ps5').click();
+  cy.getBySel('number-of-players-input').click().clear().type('1');
+  cy.getBySel('genre-input').click();
+  cy.getBySel('genre-input-action').click();
+  cy.getBySel('release-date-input').click().clear().type('03/24/2022');
 }
 
 describe('AddGameLibraryForm', () => {
@@ -41,9 +38,9 @@ describe('AddGameLibraryForm', () => {
     );
     uploadBoxArt();
     fillAddGameLibraryForm();
-    cy.get(`[data-testid='submit-add-new-game-form']`).click();
+    cy.getBySel('submit-add-new-game-form').click();
     cy.get('@finishSubmit').should('have.been.called');
-    cy.get(`[data-testid='created-game-id']`)
+    cy.getBySel('created-game-id')
       .should('exist', { force: true })
       .then(el => {
         const gameId = el.text();
@@ -65,12 +62,9 @@ describe('AddGameLibraryForm', () => {
         />
       </GlobalContextProvider>,
     );
-    cy.get(`[data-testid='number-of-players-input']`)
-      .click()
-      .clear()
-      .type('-1');
+    cy.getBySel(`number-of-players-input`).click().clear().type('-1');
     cy.get('body').click();
-    cy.get(`[data-testid='number-of-players-error']`).should(
+    cy.getBySel(`number-of-players-error`).should(
       'have.text',
       "number of players can't less than 0",
     );
@@ -86,8 +80,8 @@ describe('AddGameLibraryForm', () => {
       </GlobalContextProvider>,
     );
     fillAddGameLibraryForm();
-    cy.get(`[data-testid='submit-add-new-game-form']`).click();
-    cy.get(`[data-testid='game-box-art-upload-error']`).should(
+    cy.getBySel(`submit-add-new-game-form`).click();
+    cy.getBySel(`game-box-art-upload-error`).should(
       'have.text',
       'box art must be provided',
     );

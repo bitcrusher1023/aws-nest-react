@@ -31,15 +31,12 @@ Open http://localhost:5333 for dev
 
 ## Missing features / Improvement points
 
-- Typescript cannot read cypress config - In a result,
-  I cannot add custom command without disable typescript in test
-
 - Seeder don’t user nests config - If I decide using framework
   it should fully follow the syntax
 
 - CSP have \* - Anti pattern on security because it allowed more than I want
 
-- More test - Current only the graphql endpoint
+- More test - Current only graphql endpoint
   and add game form have been tested
 
 - Consistent form field implementation - When I integrate react-hook-form

@@ -3,6 +3,6 @@
     "types": ["cypress"]
   },
   "extends": "@busybox/tsconfig/tsconfig-react.json",
-  "include": ["src", "index.tsx"],
+  "include": ["src", "index.tsx", "cypress/global.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
