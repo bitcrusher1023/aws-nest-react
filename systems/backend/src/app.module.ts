@@ -14,7 +14,6 @@ import { configuration } from './config/configuration';
 import { getEnvFilePath } from './config/getEnvFilePath';
 import { DatabaseModule } from './database/database.module';
 import { GeneralExceptionFilter } from './error-hanlding/general-exception.filter';
-import { FrontendModule } from './frontend/frontend.module';
 import { GameGalleryModule } from './game-gallery/game-gallery.module';
 import { HealthModule } from './health-check/health.module';
 import { GeneralLoggingInterceptor } from './logging/general-logging.interceptor';
@@ -56,7 +55,6 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
     TerminusModule,
     HealthModule,
     SeederModule,
-    FrontendModule.forRoot(),
   ],
   providers: [
     {

@@ -135,16 +135,4 @@ describe('General logging interceptor', () => {
       message: 'Access Log',
     });
   });
-
-  it('query frontend html', async () => {
-    await createRequestAgent(app.getHttpServer())
-      .get('/')
-      .expect(expectResponseCode({ expectedStatusCode: 200 }));
-    expect(logger.log).toHaveBeenCalled();
-    const logFunction = logger.log as Mock;
-    const interceptorCall = logFunction.mock.calls.find(
-      call => call[2] === 'GeneralLoggingInterceptor',
-    );
-    expect(interceptorCall).toBeUndefined();
-  });
 });
