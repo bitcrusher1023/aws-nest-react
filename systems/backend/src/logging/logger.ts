@@ -1,13 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import type { Logform } from 'winston';
-import { createLogger } from 'winston';
+import {
+  createLogger,
+  format,
+  Logger as WinstonLogger,
+  transports,
+} from 'winston';
 
-import type { Level } from './logging.constants';
-import { WinstonConfig } from './winston-config';
+import { AppEnvironment } from '../config/config.constants';
+import { Level } from './logging.constants';
 
 @Injectable()
 export class Logger {
-  private winstonLogger = createLogger(WinstonConfig);
+  private winstonLogger: WinstonLogger;
+
+  constructor(private config: ConfigService) {
+    const isDev = config.get('env') === AppEnvironment.DEV;
+
+    this.winstonLogger = createLogger({
+      format: format.combine(
+        format.timestamp(),
+        ...(isDev
+          ? [format.prettyPrint({ colorize: true, depth: 3 })]
+          : [format.json()]),
+      ),
+      level: Level.info,
+      silent: !isDev,
+      transports: [new transports.Console({})],
+    });
+  }
 
   log(
     level: Level,
