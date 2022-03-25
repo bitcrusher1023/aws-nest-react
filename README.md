@@ -31,10 +31,6 @@ Open http://localhost:5333 for dev
 
 ## Missing features / Improvement points
 
-- CSP have \*
-
-Anti pattern on security because it allowed more than I want
-
 - More test
 
 Current only graphql endpoint

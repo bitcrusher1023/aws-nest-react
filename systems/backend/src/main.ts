@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import path from 'path';
 
 import { AppModule } from './app.module';
+import { AppEnvironment } from './config/config.constants';
 import { BadRequestException } from './error-hanlding/bad-request.exception';
 import { ErrorCode } from './error-hanlding/error-code.constant';
 import { NONCE } from './frontend/frontend.constants';
@@ -16,7 +17,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   const config = app.get(ConfigService);
-  const isDevelop = config.get('env') === 'development';
+  const isDevelop = config.get('env') === AppEnvironment.DEV;
   const port = config.get<number>('port')!;
   const logger = app.get(NestLogger);
 
@@ -26,14 +27,17 @@ async function bootstrap() {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          'connect-src': '*',
-          'default-src': ['strict-dynamic', `'nonce-${app.get(NONCE)}'`],
-          'img-src': '*',
+          'default-src': [
+            'localhost:*',
+            'ws://localhost:*',
+            'strict-dynamic',
+            `'nonce-${app.get(NONCE)}'`,
+          ],
+          'img-src': ['localhost:*'],
           'script-src': null,
         },
       },
-      crossOriginEmbedderPolicy: false,
-      crossOriginResourcePolicy: false,
+      crossOriginEmbedderPolicy: !isDevelop,
     }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
