@@ -17,7 +17,7 @@ import { GeneralExceptionFilter } from './error-hanlding/general-exception.filte
 import { FrontendModule } from './frontend/frontend.module';
 import { GameGalleryModule } from './game-gallery/game-gallery.module';
 import { HealthModule } from './health-check/health.module';
-import { GraphqlLoggingInterceptor } from './logging/graphql-logging.interceptor';
+import { GeneralLoggingInterceptor } from './logging/general-logging.interceptor';
 import { LoggingModule } from './logging/logging.module';
 import { SeederModule } from './test-helpers/seeder/seeder.module';
 
@@ -65,7 +65,7 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: GraphqlLoggingInterceptor,
+      useClass: GeneralLoggingInterceptor,
     },
   ],
 })
