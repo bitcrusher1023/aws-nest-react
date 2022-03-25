@@ -17,7 +17,7 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const port = config.get<number>('port')!;
   const logger = app.get(NestLogger);
-  app.enableCors({ credentials: true, origin: ['http://localhost:3000'] });
+  app.enableCors({ origin: ['http://localhost:3000'] });
 
   app.useLogger(logger);
   app.use(helmet({}));

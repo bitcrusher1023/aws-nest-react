@@ -1,0 +1,15 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Title</title>
+    <script type='module'>
+      const myRequest = new Request('{{endpoint}}', { method: "POST" }); const
+      resp = await fetch(myRequest).then(resp => resp.json());
+      document.querySelector("[slot='data']").innerText = JSON.stringify(resp,
+      null, 4)
+    </script>
+  </head>
+  <body>
+    <pre slot='data'>Loading...</pre>
+  </body>
+</html>

@@ -6,9 +6,11 @@ export async function createLambda(
   image: awsx.ecr.RepositoryImage,
   {
     rds,
+    s3Bucket,
     vpc,
   }: {
     rds: aws.rds.Cluster;
+    s3Bucket: aws.s3.Bucket;
     vpc: awsx.ec2.Vpc;
   },
 ) {
@@ -41,6 +43,13 @@ export async function createLambda(
       role: role,
     },
   );
+  new aws.iam.RolePolicyAttachment(
+    `${namePrefix}-lambda-vpc-role-policy-lambda-s3-full-access`,
+    {
+      policyArn: aws.iam.ManagedPolicy.AmazonS3FullAccess,
+      role: role,
+    },
+  );
 
   const lambdaFunction = new aws.lambda.Function(`${namePrefix}-lambda`, {
     environment: {
@@ -50,6 +59,10 @@ export async function createLambda(
         }:${rds.masterPassword.apply(pw => encodeURIComponent(pw!))}@${
           rds.endpoint
         }:${rds.port}/${rds.databaseName}`,
+        NODE_ENV: 'production',
+        PORT: '5333',
+        S3_ASSET_BUCKET: s3Bucket.bucket,
+        S3_REGION: 'eu-west-2',
       },
     },
     imageUri: image.imageValue,

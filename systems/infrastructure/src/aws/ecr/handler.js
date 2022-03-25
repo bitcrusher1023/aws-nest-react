@@ -1,10 +1,9 @@
+/* eslint-disable import/no-unresolved */
+
 import pg from 'pg';
 
 const { Client } = pg;
 export function handler(event, _, callback) {
-  if (!event.Records) {
-    return;
-  }
   const client = new Client({
     connectionString: process.env.DATABASE_CONNECTION_URL,
   });
