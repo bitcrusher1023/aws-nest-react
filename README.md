@@ -31,30 +31,43 @@ Open http://localhost:5333 for dev
 
 ## Missing features / Improvement points
 
-- Seeder don’t user nests config - If I decide using framework
-  it should fully follow the syntax
+- CSP have \*
 
-- CSP have \* - Anti pattern on security because it allowed more than I want
+Anti pattern on security because it allowed more than I want
 
-- More test - Current only graphql endpoint
-  and add game form have been tested
+- More test
 
-- Consistent form field implementation - When I integrate react-hook-form
-  i not always use `useController`,
-  some input I will use `Controller` HOC that make reader feel very confusing
+Current only graphql endpoint
+and add game form have been tested
 
-- Share more code between backend and frontend - Especially some
-  enum value and type definition
+- Consistent form field implementation
 
-- Spinner when call API - When call API on frontend ,
-  I haven't include loading screen
+When I integrate react-hook-form
+i not always use `useController`,
+some input I will use `Controller` HOC that make reader feel very confusing
 
-- More Form error handling ? - Not all input field on add game form
-  have implement validation rules
+- Share more code between backend and frontend
 
-- Record not found page - Currently when no record is found /
-  page not found it wouldn't have any clue
+Especially some
+enum value and type definition
 
-- Deployment - I have half done setup on [here](./systems/infrastructure) which
-  can auto set up the infrastructure component I need,
-  but I not have enough time to continue make use of created component.
+- Spinner when call API
+
+When call API on frontend ,
+I haven't include loading screen
+
+- More Form error handling ?
+
+Not all input field on add game form
+have implement validation rules
+
+- Record not found page
+
+Currently, when no record is found /
+page not found it wouldn't have any clue
+
+- Deployment
+
+I have half done setup on [here](./systems/infrastructure) which
+can auto set up the infrastructure component I need,
+but I not have enough time to continue make use of created component.

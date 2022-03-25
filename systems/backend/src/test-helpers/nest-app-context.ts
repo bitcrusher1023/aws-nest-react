@@ -46,17 +46,22 @@ async function createTestingApp(
   return app;
 }
 
+export async function startTestingServer(app: INestApplication) {
+  const config = app.get(ConfigService);
+  const port =
+    config.get('port') + parseInt(process.env['JEST_WORKER_ID']!, 10);
+  // https://jestjs.io/docs/en/environment-variables
+  await app.listen(port);
+  return app;
+}
+
 async function createTestingServer(
   moduleMetadata: ModuleMetadata,
 ): Promise<NestServerContext> {
   const moduleBuilder = createTestingModuleBuilder(moduleMetadata);
   const module = await moduleBuilder.compile();
   const app = await createTestingApp(module);
-  const config = app.get(ConfigService);
-  const port =
-    config.get('port') + parseInt(process.env['JEST_WORKER_ID']!, 10);
-  // https://jestjs.io/docs/en/environment-variables
-  await app.listen(port);
+  await startTestingServer(app);
   return {
     app,
   };

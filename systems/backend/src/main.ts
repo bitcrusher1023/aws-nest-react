@@ -9,15 +9,18 @@ import { AppModule } from './app.module';
 import { BadRequestException } from './error-hanlding/bad-request.exception';
 import { ErrorCode } from './error-hanlding/error-code.constant';
 import { NONCE } from './frontend/frontend.constants';
-import { Logger } from './logging/logger';
 import { NestLogger } from './logging/nest-logger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: new NestLogger(new Logger()),
+    bufferLogs: true,
   });
   const config = app.get(ConfigService);
+  const isDevelop = config.get('env') === 'development';
+  const port = config.get<number>('port')!;
+  const logger = app.get(NestLogger);
 
+  app.useLogger(logger);
   // TODO: Anti pattern for disable / allow on header
   app.use(
     helmet({
@@ -48,16 +51,13 @@ async function bootstrap() {
       whitelist: false,
     }),
   );
-  const isDevelop = config.get('env') === 'development';
   if (isDevelop)
     app.useStaticAssets(path.join(__dirname, '..', '..', 'frontend'));
   app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
   app.enableShutdownHooks();
-  const logger = app.get(NestLogger);
-  const port = config.get<number>('port')!;
-  app.useLogger(logger);
+
   await app.listen(port);
 }
 bootstrap();
