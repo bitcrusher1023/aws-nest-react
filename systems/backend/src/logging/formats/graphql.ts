@@ -1,4 +1,5 @@
 import type { GqlExecutionContext } from '@nestjs/graphql';
+import { pick } from 'ramda';
 
 export function graphql(ctx: GqlExecutionContext) {
   const { args, info, root } = {
@@ -6,5 +7,5 @@ export function graphql(ctx: GqlExecutionContext) {
     info: ctx.getInfo(),
     root: ctx.getRoot(),
   };
-  return { args, info, root };
+  return { args, info: pick(['fieldName', 'path', 'operation'])(info), root };
 }

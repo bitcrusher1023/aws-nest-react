@@ -1,6 +1,6 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
@@ -9,6 +9,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { CommonModule } from './common/common.module';
 import { RequestIdMiddleware } from './common/request-id.middleware';
 import { RequestStartTimeMiddleware } from './common/request-start-time.middleware';
+import { AppEnvironment } from './config/config.constants';
 import { configuration } from './config/configuration';
 import { getEnvFilePath } from './config/getEnvFilePath';
 import { DatabaseModule } from './database/database.module';
@@ -35,15 +36,26 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
     LoggingModule,
     DatabaseModule.forRoot(),
     CommonModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: 'schema.graphql',
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      sortSchema: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const isTest = configService.get('env') === AppEnvironment.TEST;
+        return {
+          autoSchemaFile: isTest ? true : 'schema.graphql',
+          context: ({ req, res }) => ({
+            req,
+            res,
+          }),
+          sortSchema: true,
+        };
+      },
     }),
     GameGalleryModule,
     TerminusModule,
     HealthModule,
-    SeederModule.forRoot(),
+    SeederModule,
     FrontendModule.forRoot(),
   ],
   providers: [

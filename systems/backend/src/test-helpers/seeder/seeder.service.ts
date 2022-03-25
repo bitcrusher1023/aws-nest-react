@@ -13,8 +13,7 @@ export class SeederService {
 
   async create(data: any) {
     if (data.items) {
-      const records = await this.gameRepository.save(data.items);
-      return records;
+      return await this.gameRepository.save(data.items);
     }
     return await this.gameRepository.save(data);
   }
