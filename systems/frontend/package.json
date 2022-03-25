@@ -22,7 +22,7 @@
     "@hookform/devtools": "4.0.2",
     "@stylelint/postcss-css-in-js": "0.37.2",
     "@types/apollo-upload-client": "17.0.0",
-    "@types/react": "17.0.42",
+    "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
     "@vitejs/plugin-react": "1.2.0",
     "cypress": "9.5.2",
