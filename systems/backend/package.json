@@ -105,5 +105,5 @@
     "test": "jest --maxWorkers=50%",
     "test:ci": "APP_ENV=test NODE_ENV=test Ci=true jest --coverage --ci --runInBand --bail"
   },
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
