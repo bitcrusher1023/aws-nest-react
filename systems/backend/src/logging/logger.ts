@@ -27,7 +27,7 @@ export class Logger {
           : [format.json()]),
       ),
       level: Level.info,
-      silent: [AppEnvironment.DEV, AppEnvironment.TEST].includes(env),
+      silent: [AppEnvironment.TEST].includes(env),
       transports: [new transports.Console({})],
     });
   }

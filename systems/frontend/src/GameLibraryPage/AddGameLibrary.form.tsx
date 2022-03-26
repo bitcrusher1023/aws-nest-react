@@ -46,23 +46,24 @@ const ADD_GAME_TO_LIST = gql`
   }
 `;
 
-const UPLOAD_BOX_ART = gql`
-  mutation uploadBoxArt($file: Upload!) {
-    uploadBoxArt(file: $file) {
+const PREPARE_UPLOAD_GAME_BOX_ART = gql`
+  mutation uploadBoxArt($fileName: String!) {
+    prepareUploadGameBoxArt(fileName: $fileName) {
       id
-      url
+      resultPublicUrl
+      uploadUrl
     }
   }
 `;
 
-function GameBoxArtUploadField({
+export function GameBoxArtUploadField({
   control,
   disabled = false,
 }: PropsWithoutRef<{
   control: Control<AddGameFormInput>;
   disabled?: boolean;
 }>) {
-  const [uploadBoxArt] = useMutation(UPLOAD_BOX_ART);
+  const [prePareUploadGameBoxArt] = useMutation(PREPARE_UPLOAD_GAME_BOX_ART);
   const {
     field: { name, onBlur, onChange, ref, value },
     fieldState: { error },
@@ -77,13 +78,17 @@ function GameBoxArtUploadField({
   const handleFileUpload = useCallback(
     async event => {
       const [sourceFile] = event.target.files;
-      const { data, errors } = await uploadBoxArt({
-        variables: { file: sourceFile },
+      const { data, errors } = await prePareUploadGameBoxArt({
+        variables: { fileName: sourceFile.name },
       });
       if (errors) return;
-      onChange(data.uploadBoxArt.url);
+      await fetch(data.prepareUploadGameBoxArt.uploadUrl, {
+        body: sourceFile,
+        method: 'PUT',
+      });
+      onChange(data.prepareUploadGameBoxArt.resultPublicUrl);
     },
-    [uploadBoxArt, onChange],
+    [prePareUploadGameBoxArt, onChange],
   );
 
   const hasError = !!error;
@@ -93,6 +98,7 @@ function GameBoxArtUploadField({
       {value && (
         <Box
           component={'img'}
+          data-testid="game-box-art-image"
           src={value}
           sx={{ height: '36rem', mb: 1, objectFit: 'contain' }}
         />

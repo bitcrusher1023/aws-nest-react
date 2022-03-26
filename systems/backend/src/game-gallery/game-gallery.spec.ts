@@ -14,25 +14,36 @@ const appContext = withNestServerContext({
 describe('Game gallery Resolver', () => {
   it('upload game box art', async () => {
     const app = appContext.app;
-    const {
-      body: { data, errors },
-    } = await createRequestAgent(app.getHttpServer())
-      .post('/graphql')
-      .field(
-        'operations',
-        JSON.stringify({
-          operationName: 'uploadBoxArt',
-          query:
-            'mutation uploadBoxArt($file: Upload!) {uploadBoxArt(file: $file) {url}}',
-          variables: { file: null },
-        }),
-      )
-      .field('map', '{ "0": ["variables.file"] }')
-      .attach('0', `${__dirname}/__fixtures__/elden-ring.jpeg`)
-      .expect(expectResponseCode({ expectedStatusCode: 200 }));
-    expect(errors).toBeUndefined();
-    expect(data.uploadBoxArt).toBeDefined();
-    expect(data.uploadBoxArt.url).toBeDefined();
+    const server = getApolloServer(app);
+    const PREPARE_UPLOAD_GAME_BOX_ART = gql`
+      mutation prepareUploadGameBoxArt($fileName: String!) {
+        prepareUploadGameBoxArt(fileName: $fileName) {
+          id
+          resultPublicUrl
+          uploadUrl
+        }
+      }
+    `;
+    const resp = await server.executeOperation({
+      query: PREPARE_UPLOAD_GAME_BOX_ART,
+      variables: {
+        fileName: 'test.png',
+      },
+    });
+    expect(resp.errors).toBeUndefined();
+    const { resultPublicUrl, uploadUrl } = {
+      resultPublicUrl: new URL(
+        resp.data?.['prepareUploadGameBoxArt']?.resultPublicUrl,
+      ),
+      uploadUrl: new URL(resp.data?.['prepareUploadGameBoxArt']?.uploadUrl),
+    };
+
+    expect(`${resultPublicUrl.protocol}//${resultPublicUrl.host}`).toEqual(
+      'http://localhost:4566',
+    );
+    expect(`${uploadUrl.protocol}//${resultPublicUrl.host}`).toEqual(
+      'http://localhost:4566',
+    );
   });
   it('mutation addGameToLibrary', async () => {
     const app = appContext.app;

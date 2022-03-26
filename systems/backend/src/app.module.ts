@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
-import { graphqlUploadExpress } from 'graphql-upload';
 
 import { CommonModule } from './common/common.module';
 import { RequestIdMiddleware } from './common/request-id.middleware';
@@ -74,6 +73,5 @@ export class AppModule {
     consumer
       .apply(RequestStartTimeMiddleware, RequestIdMiddleware)
       .forRoutes('*');
-    consumer.apply(graphqlUploadExpress()).forRoutes('graphql');
   }
 }
