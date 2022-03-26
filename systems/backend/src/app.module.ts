@@ -49,10 +49,6 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
             req,
             res,
           }),
-          cors: {
-            credentials: true,
-            origin: configService.get('frontend.origin')!,
-          },
           sortSchema: true,
         };
       },

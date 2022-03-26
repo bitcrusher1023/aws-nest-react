@@ -11,10 +11,8 @@ export default function ApolloClientProvider({
   const client = new ApolloClient({
     cache,
     link: createUploadLink({
-      credentials: 'include',
       uri: uri,
     }),
-    uri: uri,
   });
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

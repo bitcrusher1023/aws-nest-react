@@ -18,7 +18,6 @@ export async function bootstrap() {
   const frontendOrigin = config.get('frontend.origin');
   const logger = app.get(NestLogger);
   app.enableCors({ credentials: true, origin: [frontendOrigin] });
-
   app.useLogger(logger);
   app.use(helmet({}));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

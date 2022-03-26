@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
 import type { ReadStream } from 'fs';
+import path from 'path';
 import { ILike, Repository } from 'typeorm';
 
 import { AppEnvironment } from '../config/config.constants';
@@ -44,9 +45,9 @@ export class GameService {
         Key: key,
       }),
     );
-    const resultUrl = isPrd
-      ? `${cloudFrontUrl}/${key}`
-      : `${cloudFrontUrl}/${bucket}/${key}`;
+    const resultUrl = path.join(
+      ...(isPrd ? [cloudFrontUrl, key] : [cloudFrontUrl, bucket, key]),
+    );
     return { id, url: resultUrl };
   }
 

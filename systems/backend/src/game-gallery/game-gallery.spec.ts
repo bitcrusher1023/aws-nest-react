@@ -20,7 +20,12 @@ describe('Game gallery Resolver', () => {
       .post('/graphql')
       .field(
         'operations',
-        '{"query": "mutation uploadBoxArt($file: Upload!) {uploadBoxArt(file: $file) {url}}"}',
+        JSON.stringify({
+          operationName: 'uploadBoxArt',
+          query:
+            'mutation uploadBoxArt($file: Upload!) {uploadBoxArt(file: $file) {url}}',
+          variables: { file: null },
+        }),
       )
       .field('map', '{ "0": ["variables.file"] }')
       .attach('0', `${__dirname}/__fixtures__/elden-ring.jpeg`)
