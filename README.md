@@ -67,3 +67,9 @@ page not found it wouldn't have any clue
 I have half done setup on [here](./systems/infrastructure) which
 can auto set up the infrastructure component I need,
 but I not have enough time to continue make use of created component.
+
+- S3 bucket CORS too open
+
+I allowed any origin to put object to S3 bucket
+because pulumi don't have option to update resource
+after created.

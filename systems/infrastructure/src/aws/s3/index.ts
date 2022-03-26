@@ -27,6 +27,15 @@ export function createS3Bucket() {
   const namePrefix = prefixConfig.require('name');
   // Create an AWS resource (S3 Bucket)
   const bucket = new aws.s3.Bucket(`${namePrefix}-bucket`, {
+    corsRules: [
+      {
+        allowedHeaders: ['*'],
+        allowedMethods: ['PUT'],
+        allowedOrigins: ['*'],
+        exposeHeaders: ['ETag'],
+        maxAgeSeconds: 3000,
+      },
+    ],
     website: {
       indexDocument: 'index.html',
     },
