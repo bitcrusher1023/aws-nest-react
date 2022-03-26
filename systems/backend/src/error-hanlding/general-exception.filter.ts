@@ -46,7 +46,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
         ? exception
         : toApolloError(exception, ErrorCode.UnhandledError)
     ) as ApolloError;
-    // if (!isApolloError) apolloError.originalError = exception;
+    if (!isApolloError) apolloError.originalError = exception;
     const { req, res } = ctx.getContext<{ req: Request; res: Response }>();
     const end = new Date().getTime();
     const { startAt = end } = res?.locals ?? {};

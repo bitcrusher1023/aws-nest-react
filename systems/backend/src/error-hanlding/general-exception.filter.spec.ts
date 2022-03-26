@@ -133,9 +133,6 @@ describe('General exception filter', () => {
       {
         extensions: {
           code: 'ERR_CREATE_RECORD',
-          exception: {
-            originalError: expect.anything(),
-          },
         },
         locations: [
           {
