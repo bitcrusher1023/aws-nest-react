@@ -29,10 +29,11 @@
   "license": "MIT",
   "main": "bin/index.js",
   "name": "infrastructure",
+  "private": true,
   "scripts": {
     "build": "npx babel --config-file ./.babelrc.esm.mjs --out-dir ./bin --extensions .ts --ignore ./src/aws/ecr/node_modules --copy-files --no-copy-ignored ./src",
     "eslint": "eslint --ext=json,ts,yml"
   },
   "type": "module",
-  "version": "0.0.0"
+  "version": "1.0.0"
 }
