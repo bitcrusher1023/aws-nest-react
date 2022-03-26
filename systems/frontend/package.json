@@ -55,5 +55,5 @@
     "test": "npx cypress open-ct",
     "test:ci": "npx cypress run-ct"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
