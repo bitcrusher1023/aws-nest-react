@@ -1,0 +1,22 @@
+# Builder Stage
+FROM public.ecr.aws/lambda/nodejs:14 AS builder
+
+WORKDIR ${LAMBDA_TASK_ROOT}
+COPY ./ ${LAMBDA_TASK_ROOT}
+
+RUN npm ci --ignore-scripts && \
+    npm run build
+
+# Run stage
+FROM public.ecr.aws/lambda/nodejs:14
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+COPY --from=builder ${LAMBDA_TASK_ROOT}/dist ${LAMBDA_TASK_ROOT}/dist/
+
+COPY --from=builder ${LAMBDA_TASK_ROOT}/nest-cli.json \
+${LAMBDA_TASK_ROOT}/main-lambda.js \
+${LAMBDA_TASK_ROOT}/package.json \
+${LAMBDA_TASK_ROOT}/package-lock.json \
+${LAMBDA_TASK_ROOT}
+
+RUN npm ci --ignore-scripts --production

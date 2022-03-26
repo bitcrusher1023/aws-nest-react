@@ -1,7 +1,10 @@
 import { mount } from '@cypress/react';
+import { useForm } from 'react-hook-form';
 
 import GlobalContextProvider from '../GlobalContext.provider';
-import AddGameLibraryForm from './AddGameLibrary.form';
+import AddGameLibraryForm, {
+  GameBoxArtUploadField,
+} from './AddGameLibrary.form';
 
 function uploadBoxArt() {
   cy.getBySel('game-box-art-upload-input').selectFile(
@@ -10,6 +13,7 @@ function uploadBoxArt() {
       force: true,
     },
   );
+  cy.getBySel('game-box-art-image').should('be.visible');
 }
 
 function fillAddGameLibraryForm() {
@@ -25,6 +29,21 @@ function fillAddGameLibraryForm() {
   cy.getBySel('genre-input-action').click();
   cy.getBySel('release-date-input').click().clear().type('03/24/2022');
 }
+
+describe('GameBoxArtUploadField', () => {
+  function TestGameBoxArtUploadField() {
+    const methods = useForm<any>({});
+    return (
+      <GlobalContextProvider>
+        <GameBoxArtUploadField control={methods.control} disabled={false} />
+      </GlobalContextProvider>
+    );
+  }
+  it('should upload box art', () => {
+    mount(<TestGameBoxArtUploadField />);
+    uploadBoxArt();
+  });
+});
 
 describe('AddGameLibraryForm', () => {
   it('should create record on db when submit form', () => {

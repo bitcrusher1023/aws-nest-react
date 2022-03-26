@@ -40,12 +40,13 @@ export class GeneralExceptionFilter implements ExceptionFilter {
   ) {
     const ctx = GqlArgumentsHost.create(context);
 
+    const isApolloError = exception.extensions;
     const apolloError: ApolloError = (
-      exception.extensions
+      isApolloError
         ? exception
         : toApolloError(exception, ErrorCode.UnhandledError)
     ) as ApolloError;
-    apolloError.originalError = exception;
+    if (!isApolloError) apolloError.originalError = exception;
     const { req, res } = ctx.getContext<{ req: Request; res: Response }>();
     const end = new Date().getTime();
     const { startAt = end } = res?.locals ?? {};

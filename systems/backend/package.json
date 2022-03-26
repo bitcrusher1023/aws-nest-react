@@ -2,6 +2,7 @@
   "author": "",
   "dependencies": {
     "@aws-sdk/client-s3": "3.56.0",
+    "@aws-sdk/s3-request-presigner": "3.56.0",
     "@nestjs/apollo": "10.0.8",
     "@nestjs/common": "8.4.2",
     "@nestjs/config": "2.0.0",
@@ -11,14 +12,15 @@
     "@nestjs/swagger": "5.2.1",
     "@nestjs/terminus": "8.0.6",
     "@nestjs/typeorm": "8.0.3",
+    "@vendia/serverless-express": "4.5.4",
     "apollo-server-errors": "3.3.1",
     "apollo-server-express": "3.6.6",
+    "aws-lambda": "1.0.7",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "convict": "6.2.1",
     "dotenv": "16.0.0",
     "graphql": "16.3.0",
-    "graphql-upload": "13.0.0",
     "helmet": "5.0.2",
     "luxon": "2.3.1",
     "pg": "8.7.3",
@@ -42,9 +44,9 @@
     "@nestjs/cli": "8.2.4",
     "@nestjs/schematics": "8.0.8",
     "@nestjs/testing": "8.4.2",
+    "@types/aws-lambda": "8.10.93",
     "@types/convict": "6.1.1",
     "@types/express": "4.17.13",
-    "@types/graphql-upload": "^8.0.11",
     "@types/jest": "27.4.1",
     "@types/luxon": "2.3.1",
     "@types/node": "17.0.23",
@@ -99,9 +101,9 @@
     "prebuild": "rimraf dist",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/main.http.js",
     "test": "jest --maxWorkers=50%",
-    "test:ci": "NODE_ENV=test Ci=true jest --coverage --ci --runInBand --bail"
+    "test:ci": "APP_ENV=test NODE_ENV=test Ci=true jest --coverage --ci --runInBand --bail"
   },
   "version": "0.0.1"
 }

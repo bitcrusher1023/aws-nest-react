@@ -13,7 +13,6 @@ export default function ApolloClientProvider({
     link: createUploadLink({
       uri: uri,
     }),
-    uri: uri,
   });
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

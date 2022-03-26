@@ -16,7 +16,8 @@ export class Logger {
   private winstonLogger: WinstonLogger;
 
   constructor(private config: ConfigService) {
-    const isDev = config.get('env') === AppEnvironment.DEV;
+    const env = config.get('env');
+    const isDev = env === AppEnvironment.DEV;
 
     this.winstonLogger = createLogger({
       format: format.combine(
@@ -26,7 +27,7 @@ export class Logger {
           : [format.json()]),
       ),
       level: Level.info,
-      silent: !isDev,
+      silent: [AppEnvironment.TEST].includes(env),
       transports: [new transports.Console({})],
     });
   }
