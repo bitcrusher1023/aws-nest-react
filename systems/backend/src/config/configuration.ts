@@ -1,6 +1,6 @@
 import convict from 'convict';
 
-import { AppEnvironment } from './config.constants';
+import { AppEnvironment, AppMode } from './config.constants';
 
 convict.addFormat({
   coerce(val: any): any {
@@ -26,20 +26,35 @@ const configSchema = convict({
   },
   env: {
     default: 'development',
-    env: 'NODE_ENV',
+    env: 'APP_ENV',
     format: Object.values(AppEnvironment),
   },
+  frontend: {
+    origin: {
+      default: null,
+      format: String,
+    },
+  },
+  mode: {
+    default: 'http',
+    env: 'APP_MODE',
+    format: Object.values(AppMode),
+  },
   port: {
-    default: null,
+    default: 5333,
     env: 'PORT',
     format: 'port',
   },
-
   s3: {
     asset: {
       bucket: {
         default: null,
         env: 'S3_ASSET_BUCKET',
+        format: String,
+      },
+      cloudfront: {
+        default: null,
+        env: 'CLOUDFRONT_URL',
         format: String,
       },
     },
@@ -52,7 +67,14 @@ const configSchema = convict({
 });
 
 export function configuration() {
-  configSchema.load({});
+  const isPrd = configSchema.get('env') === AppEnvironment.PRD;
+  configSchema.load({
+    frontend: {
+      origin: isPrd
+        ? configSchema.get('s3.asset.cloudfront')
+        : 'http://localhost:3000',
+    },
+  });
   configSchema.validate({
     allowed: 'strict',
   });

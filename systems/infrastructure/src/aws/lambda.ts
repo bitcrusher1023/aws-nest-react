@@ -5,10 +5,12 @@ import * as pulumi from '@pulumi/pulumi';
 export async function createLambda(
   image: awsx.ecr.RepositoryImage,
   {
+    cloudFrontDistribution,
     rds,
     s3Bucket,
     vpc,
   }: {
+    cloudFrontDistribution: aws.cloudfront.Distribution;
     rds: aws.rds.Cluster;
     s3Bucket: aws.s3.Bucket;
     vpc: awsx.ec2.Vpc;
@@ -54,16 +56,22 @@ export async function createLambda(
   const lambdaFunction = new aws.lambda.Function(`${namePrefix}-lambda`, {
     environment: {
       variables: {
+        APP_ENV: 'production',
+        APP_MODE: 'lambda',
+        CLOUDFRONT_URL: pulumi.interpolate`https://${cloudFrontDistribution.domainName}`,
+        // Insecurity, but this is a demo.
         DATABASE_CONNECTION_URL: pulumi.interpolate`postgres://${
           rds.masterUsername
         }:${rds.masterPassword.apply(pw => encodeURIComponent(pw!))}@${
           rds.endpoint
         }:${rds.port}/${rds.databaseName}`,
         NODE_ENV: 'production',
-        PORT: '5333',
         S3_ASSET_BUCKET: s3Bucket.bucket,
         S3_REGION: 'eu-west-2',
       },
+    },
+    imageConfig: {
+      commands: ['main-lambda.handler'],
     },
     imageUri: image.imageValue,
     packageType: 'Image',

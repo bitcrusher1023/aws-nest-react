@@ -6,6 +6,7 @@ import { randomUUID } from 'crypto';
 import type { ReadStream } from 'fs';
 import { ILike, Repository } from 'typeorm';
 
+import { AppEnvironment } from '../config/config.constants';
 import type { AddGameToLibraryArgs } from './dto/add-game-to-library.args';
 import type { GetGameListArgs } from './dto/get-game-list.args';
 import { GameEntity } from './models/game.entity';
@@ -21,10 +22,13 @@ export class GameService {
 
   async uploadBoxArt(filename: string, fileStream: ReadStream) {
     const env = this.config.get('env');
+    const bucket = this.config.get('s3.asset.bucket');
+    const cloudFrontUrl = this.config.get('s3.asset.cloudfront');
+    const isPrd = ![AppEnvironment.TEST, AppEnvironment.DEV].includes(env);
     const id = randomUUID();
     const s3 = new S3Client({
       region: this.config.get('s3.region'),
-      ...(['test', 'development'].includes(env)
+      ...(!isPrd
         ? {
             endpoint: 'http://localhost:4566',
             forcePathStyle: true,
@@ -32,7 +36,6 @@ export class GameService {
         : {}),
     });
     const key = `/upload/box-art/${id}-${filename}`;
-    const bucket = this.config.get('s3.asset.bucket');
     await s3.send(
       new PutObjectCommand({
         ACL: 'public-read',
@@ -41,7 +44,10 @@ export class GameService {
         Key: key,
       }),
     );
-    return { id, url: `http://localhost:4566/${bucket}/${key}` };
+    const resultUrl = isPrd
+      ? `${cloudFrontUrl}/${key}`
+      : `${cloudFrontUrl}/${bucket}/${key}`;
+    return { id, url: resultUrl };
   }
 
   async fineGamesList(args: GetGameListArgs): Promise<GameList> {

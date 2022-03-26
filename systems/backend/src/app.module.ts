@@ -40,13 +40,19 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const isTest = configService.get('env') === AppEnvironment.TEST;
+        const shouldGenerateSchemaFile = [AppEnvironment.DEV].includes(
+          configService.get('env')!,
+        );
         return {
-          autoSchemaFile: isTest ? true : 'schema.graphql',
+          autoSchemaFile: !shouldGenerateSchemaFile ? true : 'schema.graphql',
           context: ({ req, res }) => ({
             req,
             res,
           }),
+          cors: {
+            credentials: true,
+            origin: configService.get('frontend.origin')!,
+          },
           sortSchema: true,
         };
       },

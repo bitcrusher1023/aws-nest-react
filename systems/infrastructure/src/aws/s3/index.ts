@@ -37,6 +37,13 @@ export function createS3Bucket() {
     policy: bucket.bucket.apply(publicReadPolicyForBucket),
   });
 
+  new aws.s3.BucketObject('demo-upload-image', {
+    bucket: bucket,
+    contentType: 'image/gif',
+    key: 'upload/demo.gif',
+    source: new pulumi.asset.FileAsset(path.join(currentDir, 'demo.gif')),
+  });
+
   return {
     bucket,
   };
@@ -50,12 +57,12 @@ export async function uploadTestIndexFile(
     await fs.readFile(path.join(currentDir, 'index.hbs'), 'utf-8'),
   );
 
-  // https://stackoverflow.com/questions/62561660/how-to-convert-pulumi-outputt-to-string
-  new aws.s3.BucketObject('index.html', {
+  new aws.s3.BucketObject('demo-index-html', {
     bucket: bucket,
     content: api.apiEndpoint.apply(apiEndpoint =>
       template({ endpoint: apiEndpoint }),
     ),
     contentType: 'text/html',
+    key: 'index.html',
   });
 }

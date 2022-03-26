@@ -8,6 +8,7 @@ export async function createRDS(vpc: awsx.ec2.Vpc) {
   const rdsConfig = new pulumi.Config('rds');
   const password = new random.RandomPassword('rds-password', {
     length: 16,
+    special: false,
   }).result;
   const dbUser = rdsConfig.require('user');
   const config = new pulumi.Config('prefix');

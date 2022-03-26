@@ -16,6 +16,7 @@ export function createAPIGateWay(
   // Set up the API Gateway
   const apigw = new aws.apigatewayv2.Api('httpApiGateway', {
     corsConfiguration: {
+      allowCredentials: true,
       allowOrigins: [
         pulumi.interpolate`https://${cloudFrontDistribution.domainName}`,
       ],
