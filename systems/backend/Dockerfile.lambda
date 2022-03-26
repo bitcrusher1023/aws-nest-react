@@ -17,6 +17,6 @@ COPY --from=builder ${LAMBDA_TASK_ROOT}/nest-cli.json \
 ${LAMBDA_TASK_ROOT}/main-lambda.js \
 ${LAMBDA_TASK_ROOT}/package.json \
 ${LAMBDA_TASK_ROOT}/package-lock.json \
-${LAMBDA_TASK_ROOT}
+${LAMBDA_TASK_ROOT}/
 
 RUN npm ci --ignore-scripts --production
