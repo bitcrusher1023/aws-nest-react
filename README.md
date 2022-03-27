@@ -2,9 +2,11 @@
 
 ![Working screenshot](./docs/working-screenshot.png)
 
-[branch in status when submission](https://github.com/davidNHK/code-test/tree/submission)
+[Branch in submission status](https://github.com/davidNHK/code-test/tree/submission)
 
 [Example Deployment in cloud front](https://d16m8sgb6n5atc.cloudfront.net/)
+
+**First time open may get empty sreen because lambda cold start, you may need manually refresh once**
 
 The easy way to review would be following [Development Section](#development)
 and read the [Code Review Section](#code-review)
