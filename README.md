@@ -6,7 +6,9 @@
 
 [Example Deployment in cloud front](https://d16m8sgb6n5atc.cloudfront.net/)
 
-**First time open may get empty sreen because lambda cold start, you may need manually refresh once**
+**First time open may get empty screen because
+of lambda cold start over 30s
+you may need manually refresh once**
 
 The easy way to review would be following [Development Section](#development)
 and read the [Code Review Section](#code-review)

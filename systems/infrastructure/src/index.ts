@@ -21,11 +21,14 @@ const { lambdaFunction } = await createLambda(image, {
 });
 const { apigw } = createAPIGateWay(lambdaFunction, cloudFrontDistribution);
 await uploadTestIndexFile(bucket, apigw);
-export const dockerImageUrl = image.repository.repository.repositoryUrl;
-export const databaseHost = database.endpoint;
-export const databasePassword = pulumi.unsecret(password);
+export const ECR_REPO = image.repository.repository.repositoryUrl.apply(
+  url => url.split('/')[0],
+);
+export const ECR_IMAGE_NAME = image.repository.repository.name;
+export const DATABASE_HOST = database.endpoint;
+export const DATABASE_PASSWORD = password;
 
-export const frontend = pulumi.interpolate`https://${cloudFrontDistribution.domainName}`;
-export const api = apigw.apiEndpoint;
-export const lambdaArn = lambdaFunction.arn;
-export const s3Bucket = bucket.bucket;
+export const CLOUDFRONT_URL = pulumi.interpolate`https://${cloudFrontDistribution.domainName}`;
+export const API_HOST = apigw.apiEndpoint;
+export const LAMBDA_FUNCTION_ARN = lambdaFunction.arn;
+export const S3_BUCKET = bucket.bucket;
