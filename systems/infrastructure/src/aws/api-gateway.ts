@@ -1,12 +1,12 @@
 import * as aws from '@pulumi/aws';
 import * as pulumi from '@pulumi/pulumi';
+import kebabcase from 'lodash.kebabcase';
 
 export function createAPIGateWay(
   lambda: aws.lambda.Function,
   cloudFrontDistribution: aws.cloudfront.Distribution,
 ) {
-  const prefixConfig = new pulumi.Config('prefix');
-  const namePrefix = prefixConfig.require('name');
+  const namePrefix = kebabcase(pulumi.getStack());
   new aws.lambda.Permission(`${namePrefix}-lambda-api-gateway-permission`, {
     action: 'lambda:InvokeFunction',
     function: lambda,

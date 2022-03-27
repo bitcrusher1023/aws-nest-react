@@ -1,9 +1,9 @@
 import * as aws from '@pulumi/aws';
 import * as pulumi from '@pulumi/pulumi';
+import kebabcase from 'lodash.kebabcase';
 
 export function createCloudFront(bucket: aws.s3.Bucket) {
-  const prefixConfig = new pulumi.Config('prefix');
-  const namePrefix = prefixConfig.require('name');
+  const namePrefix = kebabcase(pulumi.getStack());
   const originId = pulumi.interpolate`s3-origin-id-${bucket.id}`;
   const cloudFrontDistribution = new aws.cloudfront.Distribution(
     `${namePrefix}-cloud-front-distribution`,

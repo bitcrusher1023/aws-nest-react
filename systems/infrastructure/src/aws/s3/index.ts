@@ -2,6 +2,7 @@ import * as aws from '@pulumi/aws';
 import * as pulumi from '@pulumi/pulumi';
 import { promises as fs } from 'fs';
 import Handlebars from 'handlebars';
+import kebabcase from 'lodash.kebabcase';
 import path from 'path';
 
 const currentDir = path.parse(new URL(import.meta.url).pathname).dir;
@@ -23,8 +24,7 @@ function publicReadPolicyForBucket(bucketName: string) {
 }
 
 export function createS3Bucket() {
-  const prefixConfig = new pulumi.Config('prefix');
-  const namePrefix = prefixConfig.require('name');
+  const namePrefix = kebabcase(pulumi.getStack());
   // Create an AWS resource (S3 Bucket)
   const bucket = new aws.s3.Bucket(`${namePrefix}-bucket`, {
     corsRules: [

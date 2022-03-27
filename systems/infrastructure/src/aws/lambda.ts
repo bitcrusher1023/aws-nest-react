@@ -1,6 +1,7 @@
 import * as aws from '@pulumi/aws';
 import type * as awsx from '@pulumi/awsx';
 import * as pulumi from '@pulumi/pulumi';
+import kebabcase from 'lodash.kebabcase';
 
 export async function createLambda(
   image: awsx.ecr.RepositoryImage,
@@ -16,8 +17,7 @@ export async function createLambda(
     vpc: awsx.ec2.Vpc;
   },
 ) {
-  const prefixConfig = new pulumi.Config('prefix');
-  const namePrefix = prefixConfig.require('name');
+  const namePrefix = kebabcase(pulumi.getStack());
 
   const role = new aws.iam.Role(`${namePrefix}-lambda-vpc-role`, {
     assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
@@ -75,7 +75,7 @@ export async function createLambda(
     },
     imageUri: image.imageValue,
     packageType: 'Image',
-    reservedConcurrentExecutions: 1,
+    publish: true,
     role: role.arn,
     timeout: 60,
     vpcConfig: {
@@ -90,13 +90,13 @@ export async function createLambda(
       functionVersion: '1',
     },
   );
-  new aws.lambda.ProvisionedConcurrencyConfig(
-    `${namePrefix}-lambda-provision-config`,
-    {
-      functionName: lambdaLatestVersionAlias.functionName,
-      provisionedConcurrentExecutions: 1,
-      qualifier: lambdaLatestVersionAlias.name,
-    },
-  );
+  // new aws.lambda.ProvisionedConcurrencyConfig(
+  //   `${namePrefix}-lambda-provision-config`,
+  //   {
+  //     functionName: lambdaLatestVersionAlias.functionName,
+  //     provisionedConcurrentExecutions: 1,
+  //     qualifier: lambdaLatestVersionAlias.name,
+  //   },
+  // );
   return { lambdaFunction, lambdaLatestVersionAlias };
 }
