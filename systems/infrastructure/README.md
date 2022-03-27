@@ -12,9 +12,7 @@ Include Setup AWS with
 
 [Install pulumi CLI](https://www.pulumi.com/docs/get-started/install/)
 ```bash
-pulumi config set aws:region eu-west-2
-pulumi config set prefix:name code-test
-pulumi config set rds:user dbuser
+bash ./scripts/ci/setup.sh
 bash ./scripts/ci/deploy.sh
 ```
 
