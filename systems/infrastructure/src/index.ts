@@ -13,7 +13,7 @@ const { bucket } = createS3Bucket();
 const { cloudFrontDistribution } = createCloudFront(bucket);
 const { database, password } = await createRDS(vpc);
 const { image } = createECRImage();
-const { lambdaFunction } = await createLambda(image, {
+const { lambdaFunction, lambdaLatestVersionAlias } = await createLambda(image, {
   cloudFrontDistribution,
   rds: database,
   s3Bucket: bucket,
@@ -32,3 +32,5 @@ export const CLOUDFRONT_URL = pulumi.interpolate`https://${cloudFrontDistributio
 export const API_HOST = apigw.apiEndpoint;
 export const LAMBDA_FUNCTION_ARN = lambdaFunction.arn;
 export const S3_BUCKET = bucket.bucket;
+export const LAMBDA_FUNCTION_LATEST_VERSION_ALIAS_ARN =
+  lambdaLatestVersionAlias.name;

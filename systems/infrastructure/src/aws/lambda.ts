@@ -75,6 +75,7 @@ export async function createLambda(
     },
     imageUri: image.imageValue,
     packageType: 'Image',
+    reservedConcurrentExecutions: 1,
     role: role.arn,
     timeout: 60,
     vpcConfig: {
@@ -82,6 +83,20 @@ export async function createLambda(
       subnetIds: vpc.privateSubnetIds,
     },
   });
-
-  return { lambdaFunction };
+  const lambdaLatestVersionAlias = new aws.lambda.Alias(
+    `${namePrefix}-latest-alias`,
+    {
+      functionName: lambdaFunction.arn,
+      functionVersion: '1',
+    },
+  );
+  new aws.lambda.ProvisionedConcurrencyConfig(
+    `${namePrefix}-lambda-provision-config`,
+    {
+      functionName: lambdaLatestVersionAlias.functionName,
+      provisionedConcurrentExecutions: 1,
+      qualifier: lambdaLatestVersionAlias.name,
+    },
+  );
+  return { lambdaFunction, lambdaLatestVersionAlias };
 }
