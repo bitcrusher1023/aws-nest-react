@@ -9,8 +9,8 @@ on:
 
 env:
   AWS_DEFAULT_REGION: eu-west-2
-  S3_BUCKET: code-test-bucket-7afec63
-  API_HOST: https://l1kqpd5nqc.execute-api.eu-west-2.amazonaws.com/graphql
+  S3_BUCKET: code-test-dev-bucket-1cdcee7
+  API_HOST: https://qu3k5lklb8.execute-api.eu-west-2.amazonaws.com/graphql
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
