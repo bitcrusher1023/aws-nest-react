@@ -2,6 +2,8 @@
 
 ![Working screenshot](./docs/working-screenshot.png)
 
+[Example Deployment in cloud front](https://d16m8sgb6n5atc.cloudfront.net/)
+
 The easy way to review would be following [Development Section](#development)
 and read the [Code Review Section](#code-review)
 
@@ -12,6 +14,8 @@ and read the [Code Review Section](#code-review)
 [Frontend code related to feature](./systems/frontend/src/GameLibraryPage)
 
 [Backend code related to feature](./systems/backend/src/game-gallery)
+
+[Infrastructure setup](./systems/infrastructure/src/index.ts)
 
 [Architecture decision record](./docs/adr)
 P.S. some of ADR document I circle back after finish coding, so it may out of order.
@@ -57,19 +61,13 @@ I haven't include loading screen
 Not all input field on add game form
 have implement validation rules
 
-- Record not found page
-
-Currently, when no record is found /
-page not found it wouldn't have any clue
-
-- Deployment
-
-I have half done setup on [here](./systems/infrastructure) which
-can auto set up the infrastructure component I need,
-but I not have enough time to continue make use of created component.
-
 - S3 bucket CORS too open
 
 I allowed any origin to put object to S3 bucket
 because pulumi don't have option to update resource
 after created.
+
+- ColdStart will take a while to load
+
+That will invoke a some apps size optimization and UI handling ,
+it out of scope of this challenge

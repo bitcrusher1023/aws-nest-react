@@ -13,7 +13,7 @@ Include Setup AWS with
 [Install pulumi CLI](https://www.pulumi.com/docs/get-started/install/)
 ```bash
 pulumi config set aws:region eu-west-2
-pulumi config set prefix:name project-bootstrap
+pulumi config set prefix:name code-test
 pulumi config set rds:user dbuser
 bash ./scripts/ci/deploy.sh
 ```
@@ -40,3 +40,8 @@ then you can verify the deployment by running the following steps:
 
 ## Manual steps after deployment
 
+You need update environment setting in below files:
+
+[Frontend deploy workflow](/.github/workflows/deploy-frontend.yml)
+
+[Backend deploy workflow](/.github/workflows/deploy-backend.yml)
