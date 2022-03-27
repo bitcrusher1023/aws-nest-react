@@ -4,7 +4,7 @@
 
 [Branch in submission status](https://github.com/davidNHK/code-test/tree/submission)
 
-[Example Deployment in cloud front](https://d16m8sgb6n5atc.cloudfront.net/)
+[Example Deployment in cloud front](https://d33uuvrrqezfqv.cloudfront.net)
 
 **First time open may get empty screen because
 of lambda cold start over 30s

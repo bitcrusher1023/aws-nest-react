@@ -9,9 +9,9 @@ on:
 
 env:
   AWS_DEFAULT_REGION: eu-west-2
-  LAMBDA_FUNCTION_ARN: arn:aws:lambda:eu-west-2:139227058951:function:code-test-lambda-9efb696
-  LAMBDA_FUNCTION_LATEST_VERSION_ALIAS_NAME: code-test-latest-alias-0732c18
-  ECR_IMAGE_NAME: code-test-image-092187c
+  LAMBDA_FUNCTION_ARN: arn:aws:lambda:eu-west-2:139227058951:function:code-test-dev-lambda-ad5312d
+  LAMBDA_FUNCTION_LATEST_VERSION_ALIAS_NAME: code-test-dev-latest-alias-8976075
+  ECR_IMAGE_NAME: code-test-dev-image-698bba4
   ECR_REPO: 139227058951.dkr.ecr.eu-west-2.amazonaws.com
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
