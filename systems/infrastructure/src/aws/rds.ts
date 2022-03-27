@@ -3,6 +3,7 @@ import type * as awsx from '@pulumi/awsx';
 import * as pulumi from '@pulumi/pulumi';
 import * as random from '@pulumi/random';
 import camelcase from 'lodash.camelcase';
+import kebabcase from 'lodash.kebabcase';
 
 export async function createRDS(vpc: awsx.ec2.Vpc) {
   const rdsConfig = new pulumi.Config('rds');
@@ -11,8 +12,7 @@ export async function createRDS(vpc: awsx.ec2.Vpc) {
     special: false,
   }).result;
   const dbUser = rdsConfig.require('user');
-  const config = new pulumi.Config('prefix');
-  const namePrefix = config.require('name');
+  const namePrefix = kebabcase(pulumi.getStack());
   const subnetGroup = new aws.rds.SubnetGroup(
     `${namePrefix}-rds-subnet`,
     {
