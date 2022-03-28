@@ -1,5 +1,4 @@
-import { gql, ServerError, useMutation } from '@apollo/client';
-import type { GraphQLErrors } from '@apollo/client/errors';
+import { gql, useMutation } from '@apollo/client';
 import DatePicker from '@mui/lab/DatePicker';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -257,8 +256,7 @@ export default function AddGameLibraryForm({
     message: string;
   }>(() => {
     if (error) {
-      const serverError = error.networkError as ServerError;
-      const [mutationError] = serverError.result['errors'] as GraphQLErrors;
+      const [mutationError] = error.graphQLErrors;
       return {
         code: mutationError.extensions['code'] as string,
         message: mutationError.message as string,
@@ -385,7 +383,9 @@ export default function AddGameLibraryForm({
         <GameReleaseDateField control={control} />
         {createGameMutationError && (
           <Alert severity="error">
-            <AlertTitle>{createGameMutationError.code}</AlertTitle>
+            <AlertTitle data-testid={'alert-error-title'}>
+              {createGameMutationError.code}
+            </AlertTitle>
             {createGameMutationError.message}
           </Alert>
         )}

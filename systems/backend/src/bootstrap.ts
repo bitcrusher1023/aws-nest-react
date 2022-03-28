@@ -14,6 +14,10 @@ export async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
+  return setupApp(app);
+}
+
+export function setupApp(app: NestExpressApplication) {
   const config = app.get(ConfigService);
   const frontendOrigin = config.get('frontend.origin');
   const logger = app.get(NestLogger);

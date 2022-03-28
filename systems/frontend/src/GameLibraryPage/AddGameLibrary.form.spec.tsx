@@ -72,7 +72,35 @@ describe('AddGameLibraryForm', () => {
       });
   });
 
-  it('should should error when number of player less than 0', () => {
+  it.only('should show error alert when submit form that pass frontend validation but not backend', () => {
+    mount(
+      <GlobalContextProvider>
+        <AddGameLibraryForm
+          cancelSubmit={cy.stub()}
+          finishSubmit={cy.stub().as('finishSubmit')}
+        />
+      </GlobalContextProvider>,
+    );
+    uploadBoxArt();
+    cy.getBySel('game-name-input').click().clear().type('ELDEN RING');
+    cy.getBySel('game-publisher-input')
+      .clear()
+      .type('SONY INTERACTIVE ENTERTAINMENT');
+
+    cy.getBySel('game-platform-input').click();
+    cy.getBySel('game-platform-input-ps5').click();
+    cy.getBySel('number-of-players-input').click().clear().type('1');
+    cy.getBySel('genre-input').click();
+    cy.getBySel('genre-input-action').click();
+    cy.getBySel(`number-of-players-input`).click().clear().type('4');
+
+    cy.getBySel('submit-add-new-game-form').click();
+    cy.getBySel('alert-error-title')
+      .should('be.visible')
+      .should('have.text', 'BAD_USER_INPUT');
+  });
+
+  it('should error when number of player less than 0', () => {
     mount(
       <GlobalContextProvider>
         <AddGameLibraryForm
@@ -89,7 +117,7 @@ describe('AddGameLibraryForm', () => {
     );
   });
 
-  it('should should error when missing box art', () => {
+  it('should error when missing box art', () => {
     mount(
       <GlobalContextProvider>
         <AddGameLibraryForm
