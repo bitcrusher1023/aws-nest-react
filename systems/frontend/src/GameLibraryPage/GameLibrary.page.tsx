@@ -15,20 +15,20 @@ import GameListProvider, { Game, useGameList } from './GameList.provider';
 
 function GameLibraryListItem({ game }: { game: Game }) {
   return (
-    <Box
+    <Stack
+      alignItems={'center'}
       component={'li'}
+      direction={'row'}
+      justifyContent={'space-between'}
       sx={{
         ':hover': {
           backgroundColor: 'grey.400',
           border: '1px solid',
           borderColor: 'primary.main',
         },
-        alignItems: 'center',
         backgroundColor: 'background.default',
         borderRadius: '1rem',
-        display: 'flex',
         height: '10.4rem',
-        justifyContent: 'space-between',
         listStyleType: 'none',
         overflow: 'hidden',
         pr: 2,
@@ -62,7 +62,11 @@ function GameLibraryListItem({ game }: { game: Game }) {
         </Stack>
       </Stack>
 
-      <Stack>
+      <Box
+        sx={{
+          display: { sm: 'block', xs: 'none' },
+        }}
+      >
         <Chip
           label={game.publisher}
           sx={{
@@ -70,8 +74,8 @@ function GameLibraryListItem({ game }: { game: Game }) {
             width: '16rem',
           }}
         />
-      </Stack>
-    </Box>
+      </Box>
+    </Stack>
   );
 }
 
@@ -168,7 +172,9 @@ function GameListHeading() {
 
 export default function GameLibraryPage() {
   return (
-    <Paper sx={{ pt: 2, px: { lg: 8, md: 4, sm: 2, xs: 1 } }}>
+    <Paper
+      sx={{ minHeight: '100%', pt: 2, px: { lg: 8, md: 4, sm: 2, xs: 1 } }}
+    >
       <GameListProvider>
         <Grid container>
           <Grid item md={8} xs={10}>
