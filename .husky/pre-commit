@@ -2,4 +2,5 @@
 set -ex
 
 bash ./scripts/lint.sh
+npx lint-staged
 npx lerna exec --concurrency 1 --stream --since HEAD --exclude-dependents -- bash scripts/pre-commit.sh
