@@ -24,10 +24,10 @@ function GameLibraryListItem({ game }: { game: Game }) {
           borderColor: 'secondary.main',
         },
         alignItems: 'center',
-        backgroundColor: 'primary.main',
+        backgroundColor: 'background.default',
         borderRadius: '1rem',
         display: 'flex',
-        height: '6rem',
+        height: '10.4rem',
         justifyContent: 'space-between',
         listStyleType: 'none',
         overflow: 'hidden',
@@ -41,13 +41,14 @@ function GameLibraryListItem({ game }: { game: Game }) {
           sx={{
             height: 1,
             objectFit: 'fill',
-            width: '5rem',
+            width: '8rem',
           }}
         />
-        <Stack spacing={1} sx={{ ml: 2, width: '10rem' }}>
+        <Stack spacing={1} sx={{ ml: 2, width: '16rem' }}>
           <Typography
             sx={{
               textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
             }}
           >
             {game.name}
@@ -66,7 +67,7 @@ function GameLibraryListItem({ game }: { game: Game }) {
           label={game.publisher}
           sx={{
             textTransform: 'uppercase',
-            width: '10rem',
+            width: '16rem',
           }}
         />
       </Stack>
