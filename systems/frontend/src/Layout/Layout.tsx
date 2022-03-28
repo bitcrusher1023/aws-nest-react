@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import type { PropsWithChildren } from 'react';
 
-import PSNIcon from './PSNIcon';
+import PSNIcon from './psn_icon.svg';
 import SonyIcon from './sony_logo.svg';
 
 function Heading() {
@@ -14,7 +14,7 @@ function Heading() {
       sx={{
         backgroundColor: 'common.black',
         display: 'flex',
-        height: '3.6rem',
+        height: '5.6rem',
         justifyContent: 'end',
         p: 1,
       }}
@@ -23,7 +23,7 @@ function Heading() {
         component={'img'}
         src={SonyIcon}
         sx={{
-          width: '7.5rem',
+          width: '12rem',
         }}
       />
     </Box>
@@ -39,9 +39,7 @@ function NavBar() {
       }}
     >
       <Toolbar>
-        <Box sx={{ mr: 1 }}>
-          <PSNIcon />
-        </Box>
+        <Box component={'img'} src={PSNIcon} sx={{ mr: 1 }} />
         <Typography sx={{ color: 'text.secondary' }} variant={'h2'}>
           Game Library
         </Typography>
