@@ -389,7 +389,7 @@ export default function AddGameLibraryForm({
             {createGameMutationError.message}
           </Alert>
         )}
-        <ButtonGroup fullWidth={true}>
+        <ButtonGroup disableElevation fullWidth={true} sx={{ columnGap: 1 }}>
           <Button
             color={'primary'}
             data-testid={'submit-add-new-game-form'}
@@ -402,7 +402,7 @@ export default function AddGameLibraryForm({
             color={'primary'}
             data-testid={'cancel-add-new-game-form'}
             onClick={cancelSubmit}
-            variant="text"
+            variant="contained"
           >
             Cancel
           </Button>
