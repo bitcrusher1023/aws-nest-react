@@ -1,18 +1,50 @@
 import type {} from '@mui/lab/themeAugmentation';
 import { createTheme } from '@mui/material/styles';
-import { ThemeProvider as MuiThemeProvider } from '@mui/system';
+import {
+  experimental_sx as sx,
+  ThemeProvider as MuiThemeProvider,
+} from '@mui/system';
 import type { PropsWithChildren } from 'react';
 
 export const appTheme = createTheme({
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { color: 'primary' },
+          style: sx({
+            ':hover': {
+              backgroundColor: 'grey.400',
+            },
+            backgroundColor: 'background.default',
+            color: 'text.primary',
+          }),
+        },
+        {
+          props: { color: 'secondary' },
+          style: sx({
+            ':hover': {
+              backgroundColor: 'grey.400',
+            },
+            backgroundColor: 'grey.300',
+            color: 'text.secondary',
+          }),
+        },
+      ],
+    },
+    MuiButtonGroup: {
+      styleOverrides: {
+        grouped: sx({
+          '&:not(:last-child)': {
+            borderColor: 'grey.100',
+          },
+        }),
+      },
+    },
+  },
   palette: {
     background: {
       paper: '#f5f7fa',
-    },
-    primary: {
-      main: '#FFF',
-    },
-    secondary: {
-      main: '#0068bd',
     },
   },
   typography: {
