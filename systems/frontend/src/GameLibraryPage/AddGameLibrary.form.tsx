@@ -5,13 +5,13 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Grid';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -120,7 +120,7 @@ export function GameBoxArtUploadField({
             type="file"
           />
           <Button
-            color="secondary"
+            color="info"
             component="span"
             sx={{ width: 1 }}
             variant="contained"
@@ -284,7 +284,7 @@ export default function AddGameLibraryForm({
     [createGameMutation, finishSubmit, setFilter],
   );
   return (
-    <Container fixed sx={{ p: 2 }}>
+    <Container fixed sx={{ py: 2 }}>
       <Typography data-testid={'created-game-id'} sx={{ display: 'none' }}>
         {data?.addGameToLibrary.id}
       </Typography>
@@ -389,28 +389,24 @@ export default function AddGameLibraryForm({
             {createGameMutationError.message}
           </Alert>
         )}
-        <Grid container rowSpacing={1}>
-          <Grid item md={6} xs={12}>
-            <Button
-              data-testid={'submit-add-new-game-form'}
-              sx={{ width: 1 }}
-              type={'submit'}
-              variant="contained"
-            >
-              Submit
-            </Button>
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <Button
-              data-testid={'cancel-add-new-game-form'}
-              onClick={cancelSubmit}
-              sx={{ width: 1 }}
-              variant="contained"
-            >
-              Cancel
-            </Button>
-          </Grid>
-        </Grid>
+        <ButtonGroup fullWidth={true}>
+          <Button
+            color={'primary'}
+            data-testid={'submit-add-new-game-form'}
+            type={'submit'}
+            variant="contained"
+          >
+            Submit
+          </Button>
+          <Button
+            color={'primary'}
+            data-testid={'cancel-add-new-game-form'}
+            onClick={cancelSubmit}
+            variant="text"
+          >
+            Cancel
+          </Button>
+        </ButtonGroup>
       </Stack>
     </Container>
   );

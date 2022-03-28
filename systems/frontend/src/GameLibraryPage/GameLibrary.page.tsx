@@ -20,8 +20,8 @@ function GameLibraryListItem({ game }: { game: Game }) {
       sx={{
         ':hover': {
           backgroundColor: 'grey.400',
-          border: '0.1rem solid',
-          borderColor: 'secondary.main',
+          border: '1px solid',
+          borderColor: 'primary.main',
         },
         alignItems: 'center',
         backgroundColor: 'background.default',
@@ -82,7 +82,6 @@ function GameLibraryFilter() {
       <Typography variant={'h3'}>Filter</Typography>
       <RadioGroup onChange={setFilter} value={platformFilter}>
         <FormControlLabel
-          color="secondary"
           control={<Radio color="default" />}
           label="PS4"
           value="PS4"
@@ -93,7 +92,6 @@ function GameLibraryFilter() {
           value="PS5"
         />
         <FormControlLabel
-          color="secondary"
           control={<Radio color="default" />}
           label="ALL"
           value="ALL"
