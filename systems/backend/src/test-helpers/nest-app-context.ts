@@ -1,13 +1,12 @@
 import { afterAll, beforeAll, beforeEach } from '@jest/globals';
-import { ClassSerializerInterceptor, INestApplication } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
 import type { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadata.interface';
 import { ConfigService } from '@nestjs/config';
-import { Reflector } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 
 import { AppModule } from '../app.module';
-import { NestLogger } from '../logging/nest-logger';
+import { setupApp } from '../bootstrap';
 
 interface NestServerContext {
   app: INestApplication;
@@ -32,17 +31,7 @@ async function createTestingApp(
 ): Promise<NestExpressApplication> {
   const app = module.createNestApplication<NestExpressApplication>();
 
-  app.enableShutdownHooks();
-  const logger = app.get(NestLogger);
-
-  app.useLogger(logger);
-  app.useGlobalInterceptors(
-    new ClassSerializerInterceptor(app.get(Reflector), {
-      groups: ['e2e-test'],
-    }),
-  );
-
-  return app;
+  return setupApp(app);
 }
 
 export async function startTestingServer(app: INestApplication) {

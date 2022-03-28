@@ -1,5 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { HttpStatus, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -44,10 +44,20 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
         );
         return {
           autoSchemaFile: !shouldGenerateSchemaFile ? true : 'schema.graphql',
+          autoTransformHttpErrors: true,
           context: ({ req, res }) => ({
             req,
             res,
           }),
+          formatResponse(response, context) {
+            return {
+              ...response,
+              http: {
+                ...context.response?.http,
+                status: HttpStatus.OK,
+              } as any,
+            };
+          },
           sortSchema: true,
         };
       },

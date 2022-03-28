@@ -73,6 +73,52 @@ describe('Game gallery Resolver', () => {
     expect(resp.errors).toBeUndefined();
   });
 
+  it('should 200 status with error code when missing param on addGameToLibrary mutation', async () => {
+    const app = appContext.app;
+    const ADD_GAME_TO_LIST = `
+      mutation addGameToLibrary($data: AddGameToLibraryArgs!) {
+        addGameToLibrary(data: $data) {
+          id
+        }
+      }
+    `;
+    const { body } = await createRequestAgent(app.getHttpServer())
+      .post('/graphql')
+      .send({
+        query: ADD_GAME_TO_LIST,
+        variables: {
+          data: {
+            boxArtImageUrl: 'https://www.google.com',
+            genre: 'FIGHTING',
+            name: 'GOD OF WAR',
+            numberOfPlayers: 4,
+            platform: 'PS4',
+            publisher: 'SONY INTERACTIVE ENTERTAINMENT',
+            releaseDate: null,
+            userId: randomUUID(),
+          },
+        },
+      })
+      .expect(expectResponseCode({ expectedStatusCode: 200 }));
+
+    expect(body.errors).toBeDefined();
+    expect(body.errors).toStrictEqual([
+      {
+        extensions: {
+          code: 'BAD_USER_INPUT',
+        },
+        locations: [
+          {
+            column: 33,
+            line: 2,
+          },
+        ],
+        message:
+          'Variable "$data" got invalid value null at "data.releaseDate"; Expected non-nullable type "Date!" not to be null.',
+      },
+    ]);
+  });
+
   it('query gameList by platform', async () => {
     const app = appContext.app;
 
