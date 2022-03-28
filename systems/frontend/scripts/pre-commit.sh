@@ -1,3 +1,3 @@
 #!/bin/sh
 set -ex
-lint-staged
+npx lint-staged

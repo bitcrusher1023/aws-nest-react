@@ -1,13 +1,13 @@
-version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
+  - directory: /
     ignore:
-      - dependency-name: 'serialize-error'
+      - dependency-name: serialize-error
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+    package-ecosystem: npm
     schedule:
-      interval: "daily"
+      interval: daily
+  - directory: /
+    package-ecosystem: github-actions
+    schedule:
+      interval: daily
+version: 2
