@@ -12,6 +12,7 @@ module.exports = {
       },
     },
   ],
+  root: true,
   rules: {
     'import/no-default-export': ['off'],
     'import/prefer-default-export': ['error'],
