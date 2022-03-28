@@ -1,7 +1,3 @@
-html {
+:root {
     font-size: 62.5%; /*Make compute rem more easily*/
-}
-
-body {
-    font-size: 1.6rem; /*Restore default font size*/
 }
