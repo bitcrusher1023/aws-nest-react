@@ -17,13 +17,14 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
           node-version-file: .nvmrc
       - run: bash ./scripts/setup.sh
-      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash scripts/ci/setup.sh
-      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash scripts/ci/deploy.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash
+          scripts/ci/setup.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=backend -- bash
+          scripts/ci/deploy.sh
 name: Deploy systems/backend
-
 on:
   push:
     branches:
       - master
     paths:
-      - 'systems/backend/**'
+      - systems/backend/**

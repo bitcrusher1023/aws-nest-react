@@ -1,5 +1,5 @@
 env:
-  API_HOST: https://qu3k5lklb8.execute-api.eu-west-2.amazonaws.com/graphql
+  API_HOST: https://qu3k5lklb8.execute-api.eu-west-2.amazonaws.com
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_DEFAULT_REGION: eu-west-2
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -15,12 +15,12 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
           node-version-file: .nvmrc
       - run: bash ./scripts/setup.sh
-      - run: npx lerna exec --stream --concurrency 1 --scope=frontend -- bash scripts/ci/deploy.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=frontend -- bash
+          scripts/ci/deploy.sh
 name: Deploy systems/frontend
-
 on:
   push:
     branches:
       - master
     paths:
-      - 'systems/frontend/**'
+      - systems/frontend/**
