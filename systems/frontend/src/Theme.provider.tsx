@@ -15,6 +15,9 @@ export const appTheme = createTheme({
       main: '#0068bd',
     },
   },
+  typography: {
+    htmlFontSize: 10,
+  },
 });
 
 export default function ThemeProvider({

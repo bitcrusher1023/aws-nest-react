@@ -1,5 +1,8 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql, ServerError, useMutation } from '@apollo/client';
+import type { GraphQLErrors } from '@apollo/client/errors';
 import DatePicker from '@mui/lab/DatePicker';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -16,7 +19,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { PropsWithoutRef, useCallback, useState } from 'react';
+import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import {
   Control,
   Controller,
@@ -100,7 +103,7 @@ export function GameBoxArtUploadField({
           component={'img'}
           data-testid="game-box-art-image"
           src={value}
-          sx={{ height: '36rem', mb: 1, objectFit: 'contain' }}
+          sx={{ height: '32rem', mb: 1, objectFit: 'contain' }}
         />
       )}
       {!disabled && (
@@ -146,7 +149,6 @@ function GameReleaseDateField({
     field: { name, onBlur, onChange, ref, value },
   } = useController({
     control: control,
-    defaultValue: null,
     name: 'releaseDate',
   });
   return (
@@ -196,7 +198,11 @@ function GameNumberOfPlayersField({
   });
 
   const onValueChange = useCallback(
-    event => onChange(parseInt(event.target.value, 10)),
+    event => {
+      const numberValue = parseInt(event.target.value, 10);
+      if (!isNaN(numberValue)) return onChange(numberValue);
+      return onChange('');
+    },
     [onChange],
   );
 
@@ -210,7 +216,7 @@ function GameNumberOfPlayersField({
         data-testid={'number-of-players-input'}
         disabled={disabled}
         id="numberOfPlayers"
-        inputProps={{ type: 'number' }}
+        inputProps={{ min: 0, type: 'number' }}
         name={name}
         onBlur={onBlur}
         onChange={onValueChange}
@@ -234,10 +240,33 @@ export default function AddGameLibraryForm({
   finishSubmit: () => void;
 }) {
   const { control, handleSubmit } = useForm<AddGameFormInput>({
-    defaultValues: {},
+    defaultValues: {
+      boxArtImageUrl: '',
+      genre: 'FIGHTING',
+      name: '',
+      numberOfPlayers: '',
+      platform: 'PS5',
+      publisher: '',
+      releaseDate: null,
+    },
     mode: 'onBlur',
   });
-  const [createGameMutation, { data }] = useMutation(ADD_GAME_TO_LIST);
+  const [createGameMutation, { data, error }] = useMutation(ADD_GAME_TO_LIST);
+  const createGameMutationError = useMemo<null | {
+    code: string;
+    message: string;
+  }>(() => {
+    if (error) {
+      const serverError = error.networkError as ServerError;
+      const [mutationError] = serverError.result['errors'] as GraphQLErrors;
+      return {
+        code: mutationError.extensions['code'] as string,
+        message: mutationError.message as string,
+      };
+    }
+    return null;
+  }, [error]);
+
   const { setFilter } = useGameList();
   const onSubmit: SubmitHandler<AddGameFormInput> = useCallback(
     async data => {
@@ -294,7 +323,6 @@ export default function AddGameLibraryForm({
 
         <Controller
           control={control}
-          defaultValue={'PS5'}
           name={'platform'}
           render={({ field }) => (
             <FormControl fullWidth>
@@ -321,7 +349,6 @@ export default function AddGameLibraryForm({
 
         <Controller
           control={control}
-          defaultValue={'FIGHTING'}
           name={'genre'}
           render={({ field }) => (
             <FormControl fullWidth>
@@ -356,6 +383,12 @@ export default function AddGameLibraryForm({
           )}
         />
         <GameReleaseDateField control={control} />
+        {createGameMutationError && (
+          <Alert severity="error">
+            <AlertTitle>{createGameMutationError.code}</AlertTitle>
+            {createGameMutationError.message}
+          </Alert>
+        )}
         <Grid container rowSpacing={1}>
           <Grid item md={6} xs={12}>
             <Button
