@@ -252,13 +252,16 @@ export default function AddGameLibraryForm({
     mode: 'onBlur',
   });
   const [createGameMutation, { data, error }] = useMutation(ADD_GAME_TO_LIST);
-  const createGameMutationError = useMemo(() => {
+  const createGameMutationError = useMemo<null | {
+    code: string;
+    message: string;
+  }>(() => {
     if (error) {
       const serverError = error.networkError as ServerError;
       const [mutationError] = serverError.result['errors'] as GraphQLErrors;
       return {
-        code: mutationError.extensions['code'],
-        message: mutationError.message,
+        code: mutationError.extensions['code'] as string,
+        message: mutationError.message as string,
       };
     }
     return null;
