@@ -2,6 +2,8 @@
 
 ![Working screenshot](./docs/working-screenshot.png)
 
+![Monthly Budget reference](./docs/aws-usd-budget.png)
+
 [Branch in submission status](https://github.com/davidNHK/code-test/tree/submission)
 
 [Example Deployment in cloud front](https://d33uuvrrqezfqv.cloudfront.net)
