@@ -25,7 +25,9 @@ export const ECR_REPO = image.repository.repository.repositoryUrl.apply(
   url => url.split('/')[0],
 );
 export const ECR_IMAGE_NAME = image.repository.repository.name;
+export const DATABASE_NAME = database.databaseName;
 export const DATABASE_HOST = database.endpoint;
+export const DATABASE_USER = database.masterUsername;
 export const DATABASE_PASSWORD = password;
 
 export const CLOUDFRONT_URL = pulumi.interpolate`https://${cloudFrontDistribution.domainName}`;
