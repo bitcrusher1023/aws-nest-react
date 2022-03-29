@@ -5,7 +5,7 @@
     "@emotion/styled": "11.8.1",
     "@mui/lab": "5.0.0-alpha.74",
     "@mui/material": "5.5.3",
-    "@mui/system": "5.5.2",
+    "@mui/system": "5.5.3",
     "apollo-upload-client": "17.0.0",
     "graphql": "16.3.0",
     "luxon": "2.3.1",
