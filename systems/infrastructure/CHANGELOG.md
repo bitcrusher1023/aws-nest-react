@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/davidNHK/sony-code-test/compare/v1.1.0...v1.3.0) (2022-04-02)
+
+
+### Features
+
+* enable auto update github action workflow file ([c38fd3e](https://github.com/davidNHK/sony-code-test/commit/c38fd3e2f2447eabdc025b1511dcc139ee4d3e61))
+
+
+
+
+
 # [1.2.0](https://github.com/davidNHK/sony-code-test/compare/v1.1.0...v1.2.0) (2022-03-28)
 
 **Note:** Version bump only for package infrastructure
