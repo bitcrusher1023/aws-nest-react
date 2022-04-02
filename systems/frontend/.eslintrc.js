@@ -6,7 +6,7 @@ module.exports = {
         'cypress/globals': true,
       },
       extends: ['plugin:cypress/recommended'],
-      files: ['src/**/*.spec.js'],
+      files: ['src/**/*.spec.tsx'],
       rules: {
         'cypress/no-pause': 'error',
       },

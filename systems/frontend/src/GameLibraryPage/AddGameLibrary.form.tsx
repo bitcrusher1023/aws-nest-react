@@ -268,14 +268,19 @@ export default function AddGameLibraryForm({
   const { setFilter } = useGameList();
   const onSubmit: SubmitHandler<AddGameFormInput> = useCallback(
     async data => {
-      await createGameMutation({
-        variables: {
-          data: {
-            ...data,
-            userId: userId,
+      try {
+        await createGameMutation({
+          variables: {
+            data: {
+              ...data,
+              userId: userId,
+            },
           },
-        },
-      });
+        });
+      } catch (e) {
+        return;
+      }
+
       await setFilter?.(null, data.platform);
       finishSubmit();
     },
