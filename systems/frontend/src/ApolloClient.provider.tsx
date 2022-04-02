@@ -7,7 +7,7 @@ const cache = new InMemoryCache();
 export default function ApolloClientProvider({
   children,
 }: PropsWithChildren<unknown>) {
-  const uri = import.meta.env.VITE_BACKEND_HOST;
+  const uri = `${import.meta.env.VITE_BACKEND_HOST}/graphql`;
   const client = new ApolloClient({
     cache,
     link: createUploadLink({
