@@ -72,7 +72,7 @@ describe('AddGameLibraryForm', () => {
       });
   });
 
-  it.only('should show error alert when submit form that pass frontend validation but not backend', () => {
+  it('should show error alert when submit form that pass frontend validation but not backend', () => {
     mount(
       <GlobalContextProvider>
         <AddGameLibraryForm
@@ -93,7 +93,6 @@ describe('AddGameLibraryForm', () => {
     cy.getBySel('genre-input').click();
     cy.getBySel('genre-input-action').click();
     cy.getBySel(`number-of-players-input`).click().clear().type('4');
-
     cy.getBySel('submit-add-new-game-form').click();
     cy.getBySel('alert-error-title')
       .should('be.visible')
