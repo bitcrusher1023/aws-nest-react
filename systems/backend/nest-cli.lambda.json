@@ -1,0 +1,8 @@
+{
+  "collection": "@nestjs/schematics",
+  "compilerOptions": {
+    "plugins": ["@nestjs/graphql"]
+  },
+  "entryFile": "main.lambda",
+  "sourceRoot": "src"
+}
