@@ -60,6 +60,7 @@
     "jest-environment-node": "27.5.1",
     "supertest": "6.2.2",
     "ts-jest": "27.1.4",
+    "ts-loader": "9.2.8",
     "ts-node": "10.7.0",
     "tsconfig-paths": "3.14.1",
     "typescript": "4.6.3"
@@ -94,6 +95,7 @@
   "private": true,
   "scripts": {
     "build": "nest build",
+    "build:lambda": "nest build --webpack -c nest-cli.lambda.json",
     "eslint": "eslint --ext=json,ts,yml",
     "lint": "npx eslint --ext=json,ts,yml --fix .",
     "lint:ci": "npx eslint --ext=json,ts,yml .",
