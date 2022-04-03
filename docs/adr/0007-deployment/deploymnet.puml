@@ -1,0 +1,51 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v11.1/dist
+!define ICONURL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.4.0
+
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/Storage/SimpleStorageService.puml
+!includeurl AWSPuml/Compute/Lambda.puml
+!includeurl AWSPuml/ApplicationIntegration/APIGateway.puml
+!includeurl AWSPuml/NetworkingContentDelivery/CloudFront.puml
+!includeurl AWSPuml/Database/AuroraPostgreSQLInstance.puml
+!includeurl AWSPuml/Containers/ElasticContainerRegistry.puml
+!includeurl AWSPuml/Containers/ElasticContainerRegistryImage.puml
+
+!includeurl ICONURL/devicons/react.puml
+!includeurl ICONURL/devicons2/nestjs.puml
+!includeurl ICONURL/font-awesome-5/user.puml
+!includeurl ICONURL/font-awesome-5/aws.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "People that need products", $sprite="user")
+
+System_Boundary(aws, "AWS Cloud"){
+   System(cloudFront,"CloudFront","CDN",$sprite="CloudFront")
+   System(s3, "S3", $sprite="SimpleStorageService") {
+        Container(frontend, "Web SPA","react", $sprite="react")
+   }
+   System(apigw,"API Gateway",$sprite="APIGateway")
+   System(lambda,"Lambda",$sprite="Lambda")
+   System(db,"RDS Aurora",$sprite="AuroraPostgreSQLInstance")
+   System(ecr,"ECR",$sprite="ElasticContainerRegistry") {
+    Container(backend_image, "Docker Image", $sprite="ElasticContainerRegistryImage") {
+        Container(backend, "Backend","nest-js", $sprite="nestjs")
+    }
+   }
+}
+
+Rel(user, cloudFront, "Uses", "HTTPS")
+Rel(cloudFront, s3, "Get document")
+Rel(cloudFront, user, "cached document")
+Rel(user, apigw, "AJAX")
+Rel(apigw, lambda, "Invoke")
+Rel(apigw, user, "Backend Response", "JSON")
+
+Rel(lambda, backend_image, "download and serve")
+Rel(backend, db, "Persist / Query data")
+
+
+
+@enduml
