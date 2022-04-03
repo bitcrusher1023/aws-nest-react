@@ -24,3 +24,17 @@ I want design database table for holding game library of user.
 
 because I only have limited time and
 migration afterward seem not impossible
+
+```mermaid
+erDiagram
+    game {
+        uuid id
+        string platform
+        int number_of_players
+        string user_id
+        string name
+        string genre
+        date release_date
+        string box_art_image_url
+    }
+```
