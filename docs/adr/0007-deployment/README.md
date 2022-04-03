@@ -26,3 +26,4 @@ Which need include
 ## Decision Outcome
 
 - AWS because all option is serverless pricing modal.
+  ![Deployment](./deploymnet.png)
