@@ -34,6 +34,7 @@ export async function createRDS(vpc: awsx.ec2.Vpc) {
       masterUsername: dbUser,
       scalingConfiguration: {
         minCapacity: 2,
+        secondsUntilAutoPause: 86400 - 1,
       },
       skipFinalSnapshot: true,
     },
