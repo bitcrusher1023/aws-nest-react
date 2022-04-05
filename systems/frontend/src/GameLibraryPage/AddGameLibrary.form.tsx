@@ -154,10 +154,6 @@ function GameReleaseDateField({
     <DatePicker
       PopperProps={{
         placement: 'auto',
-        // sx: {
-        //   transform: null,
-        // },
-        // transition: false,
       }}
       disabled={disabled}
       inputRef={ref}
