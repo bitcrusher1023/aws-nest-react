@@ -90,13 +90,13 @@ export async function createLambda(
       functionVersion: '1',
     },
   );
-  // new aws.lambda.ProvisionedConcurrencyConfig(
-  //   `${namePrefix}-lambda-provision-config`,
-  //   {
-  //     functionName: lambdaLatestVersionAlias.functionName,
-  //     provisionedConcurrentExecutions: 1,
-  //     qualifier: lambdaLatestVersionAlias.name,
-  //   },
-  // );
+  new aws.lambda.ProvisionedConcurrencyConfig(
+    `${namePrefix}-lambda-provision-config`,
+    {
+      functionName: lambdaLatestVersionAlias.functionName,
+      provisionedConcurrentExecutions: 1,
+      qualifier: lambdaLatestVersionAlias.name,
+    },
+  );
   return { lambdaFunction, lambdaLatestVersionAlias };
 }

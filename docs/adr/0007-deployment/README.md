@@ -21,8 +21,9 @@ Which need include
 ## Considered Options
 
 - AWS RDS Aurora + Lambda + CloudFront + S3
-- GCP Cloud SQL + Cloud Function + Cloud Storage
+- GCP Cloud SQL + Cloud Run + Cloud Storage
 
 ## Decision Outcome
 
 - AWS because all option is serverless pricing modal.
+  ![Deployment](./deploymnet.png)

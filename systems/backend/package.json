@@ -34,7 +34,7 @@
     "typeorm": "0.2.45",
     "typeorm-naming-strategies": "4.1.0",
     "uuid": "8.3.2",
-    "winston": "3.6.0"
+    "winston": "3.7.2"
   },
   "description": "",
   "devDependencies": {
