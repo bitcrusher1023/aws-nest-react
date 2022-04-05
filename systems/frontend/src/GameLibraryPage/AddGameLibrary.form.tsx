@@ -152,7 +152,11 @@ function GameReleaseDateField({
   });
   return (
     <DatePicker
+      PopperProps={{
+        placement: 'auto',
+      }}
       disabled={disabled}
+      inputRef={ref}
       label="Release Date"
       onChange={value => {
         onChange(value?.toString());
@@ -163,7 +167,6 @@ function GameReleaseDateField({
           data-testid={'release-date-input'}
           name={name}
           onBlur={onBlur}
-          ref={ref}
         />
       )}
       value={value}
@@ -200,7 +203,7 @@ function GameNumberOfPlayersField({
     event => {
       const numberValue = parseInt(event.target.value, 10);
       if (!isNaN(numberValue)) return onChange(numberValue);
-      return onChange('');
+      return null;
     },
     [onChange],
   );
