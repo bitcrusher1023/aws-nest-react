@@ -52,7 +52,6 @@ export function createS3Bucket() {
     key: 'upload/demo.gif',
     source: new pulumi.asset.FileAsset(path.join(currentDir, 'demo.gif')),
   });
-
   return {
     bucket,
   };
@@ -66,7 +65,7 @@ export async function uploadTestIndexFile(
     await fs.readFile(path.join(currentDir, 'index.hbs'), 'utf-8'),
   );
 
-  new aws.s3.BucketObject('demo-index-html', {
+  return new aws.s3.BucketObject('demo-index-html', {
     bucket: bucket,
     content: api.apiEndpoint.apply(apiEndpoint =>
       template({ endpoint: apiEndpoint }),

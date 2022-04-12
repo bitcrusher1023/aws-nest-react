@@ -1,0 +1,25 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.1.1
+        with:
+          cache: npm
+          cache-dependency-path: '**/package-lock.json'
+          node-version-file: .nvmrc
+      - run: bash ./scripts/setup.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=infrastructure -- bash scripts/ci/setup.sh
+      - run: npx lerna exec --stream --concurrency 1 --scope=infrastructure -- bash scripts/ci/test.sh
+name: Test systems/infrastructure
+
+on:
+  pull_request:
+    paths:
+      - 'systems/infrastructure/**'
+  push:
+    branches:
+      - development
+      - master
+    paths:
+      - 'systems/infrastructure/**'
