@@ -15,7 +15,7 @@
     "react-router-dom": "6.3.0"
   },
   "devDependencies": {
-    "@busybox/eslint-config": "5.9.1",
+    "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
     "@cypress/react": "5.12.4",
     "@cypress/vite-dev-server": "2.2.2",
