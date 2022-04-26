@@ -20,7 +20,7 @@
     "class-validator": "0.13.2",
     "convict": "6.2.2",
     "dotenv": "16.0.0",
-    "graphql": "16.3.0",
+    "graphql": "16.4.0",
     "helmet": "5.0.2",
     "luxon": "2.3.2",
     "pg": "8.7.3",
