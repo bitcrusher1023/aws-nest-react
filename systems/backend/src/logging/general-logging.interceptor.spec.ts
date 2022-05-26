@@ -9,7 +9,9 @@ import {
 import { getApolloServer } from '@nestjs/apollo';
 import { Controller, Get, LoggerService } from '@nestjs/common';
 import { Field, ID, ObjectType, Query, Resolver } from '@nestjs/graphql';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import gql from 'graphql-tag';
+import type { Mock } from 'jest-mock';
 
 import { createRequestAgent } from '../test-helpers/create-request-agent';
 import { expectResponseCode } from '../test-helpers/expect-response-code';
@@ -17,8 +19,6 @@ import {
   startTestingServer,
   withNestModuleBuilderContext,
 } from '../test-helpers/nest-app-context';
-import Mock = jest.Mock;
-import type { NestExpressApplication } from '@nestjs/platform-express';
 
 @ObjectType()
 class TestModel {
@@ -88,7 +88,7 @@ describe('General logging interceptor', () => {
       call => call[2] === 'GeneralLoggingInterceptor',
     );
     expect(interceptorCall).toBeDefined();
-    const [loggingParams] = interceptorCall;
+    const [loggingParams] = interceptorCall ?? [];
     expect(loggingParams).toStrictEqual({
       duration: 0,
       graphql: {
@@ -119,7 +119,7 @@ describe('General logging interceptor', () => {
       call => call[2] === 'GeneralLoggingInterceptor',
     );
     expect(interceptorCall).toBeDefined();
-    const [loggingParams] = interceptorCall;
+    const [loggingParams] = interceptorCall ?? [];
     expect(loggingParams).toStrictEqual({
       duration: expect.any(Number),
       http: {

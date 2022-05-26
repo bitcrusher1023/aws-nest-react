@@ -104,9 +104,9 @@ describe('Game gallery Resolver', () => {
     expect(body.errors).toBeDefined();
     expect(body.errors).toStrictEqual([
       {
-        extensions: {
+        extensions: expect.objectContaining({
           code: 'BAD_USER_INPUT',
-        },
+        }),
         locations: [
           {
             column: 33,
