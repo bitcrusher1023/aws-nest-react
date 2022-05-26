@@ -3,7 +3,7 @@
     "@apollo/client": "3.6.5",
     "@emotion/react": "11.9.0",
     "@emotion/styled": "11.8.1",
-    "@mui/lab": "5.0.0-alpha.79",
+    "@mui/lab": "5.0.0-alpha.83",
     "@mui/material": "5.6.3",
     "@mui/system": "5.8.1",
     "apollo-upload-client": "17.0.0",
