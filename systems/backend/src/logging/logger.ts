@@ -17,17 +17,24 @@ export class Logger {
 
   constructor(private config: ConfigService) {
     const env = config.get('env');
-    const isDev = env === AppEnvironment.DEV;
+    const isDev = [AppEnvironment.DEV].includes(env);
 
     this.winstonLogger = createLogger({
       format: format.combine(
         format.timestamp(),
         ...(isDev
-          ? [format.prettyPrint({ colorize: true, depth: 3 })]
+          ? [
+              format((info: any) => {
+                return info.context === 'GeneralLoggingInterceptor'
+                  ? false
+                  : info;
+              })(),
+              format.prettyPrint({ colorize: true, depth: 4 }),
+            ]
           : [format.json()]),
       ),
-      level: Level.info,
-      silent: [AppEnvironment.TEST].includes(env),
+      level: isDev ? Level.debug : Level.info,
+      silent: [AppEnvironment.CI_TEST, AppEnvironment.TEST].includes(env),
       transports: [new transports.Console({})],
     });
   }

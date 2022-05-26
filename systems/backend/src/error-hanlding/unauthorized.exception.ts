@@ -1,11 +1,9 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-import {
-  ExceptionPayload,
-  exceptionPayloadToResponse,
-} from './exception-payload';
+import type { ExceptionPayload } from './exception-payload';
+import { exceptionPayloadToResponse } from './exception-payload';
 
-export class BadRequestException extends HttpException {
+export class UnauthorizedException extends HttpException {
   debugDetails?: Record<string, unknown> | undefined; // Only visible on access log
 
   constructor(response: ExceptionPayload) {
@@ -16,7 +14,7 @@ export class BadRequestException extends HttpException {
         errors,
         meta,
       }),
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.UNAUTHORIZED,
     );
     this.debugDetails = debugDetails;
   }

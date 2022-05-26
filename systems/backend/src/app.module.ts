@@ -1,7 +1,12 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { HttpStatus, MiddlewareConsumer, Module } from '@nestjs/common';
+import {
+  HttpStatus,
+  MiddlewareConsumer,
+  Module,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
 
@@ -12,6 +17,8 @@ import { AppEnvironment } from './config/config.constants';
 import { configuration } from './config/configuration';
 import { getEnvFilePath } from './config/getEnvFilePath';
 import { DatabaseModule } from './database/database.module';
+import { BadRequestException } from './error-hanlding/bad-request.exception';
+import { ErrorCode } from './error-hanlding/error-code.constant';
 import { GeneralExceptionFilter } from './error-hanlding/general-exception.filter';
 import { GameGalleryModule } from './game-gallery/game-gallery.module';
 import { HealthModule } from './health-check/health.module';
@@ -75,6 +82,23 @@ import { SeederModule } from './test-helpers/seeder/seeder.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: GeneralLoggingInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        exceptionFactory(errors) {
+          throw new BadRequestException({
+            code: ErrorCode.ValidationError,
+            errors: errors.map(error => ({
+              detail: error.toString(),
+              title: 'Validation Error',
+            })),
+            meta: { errors },
+          });
+        },
+        transform: true,
+        whitelist: false,
+      }),
     },
   ],
 })
