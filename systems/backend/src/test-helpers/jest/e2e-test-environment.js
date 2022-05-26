@@ -1,4 +1,4 @@
-const NodeEnvironment = require('jest-environment-node');
+const { TestEnvironment } = require('jest-environment-node');
 const path = require('path');
 const typeorm = require('typeorm');
 
@@ -23,7 +23,7 @@ function generateTestId(testPath) {
       .replace(/^./, '-')
       .toLowerCase()
       .split('-')
-      .filter((i) => i.length > 0)
+      .filter(i => i.length > 0)
       .join('-')}`;
   }
   return suffix.toLowerCase();
@@ -39,7 +39,7 @@ async function setupDB(testId) {
   return testId;
 }
 
-class E2ETestEnvironment extends NodeEnvironment {
+class E2ETestEnvironment extends TestEnvironment {
   constructor(config, context) {
     super(config);
     this.testPath = context['testPath'];
