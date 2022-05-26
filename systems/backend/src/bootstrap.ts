@@ -1,13 +1,10 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory, Reflector } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { configuration } from './config/configuration';
-import { BadRequestException } from './error-hanlding/bad-request.exception';
-import { ErrorCode } from './error-hanlding/error-code.constant';
 import { NestLogger } from './logging/nest-logger';
 
 export async function bootstrap() {
@@ -24,21 +21,6 @@ export function setupApp(app: NestExpressApplication) {
   app.enableCors({ credentials: true, origin: [frontendOrigin] });
   app.useLogger(logger);
   app.use(helmet({}));
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      exceptionFactory(errors) {
-        throw new BadRequestException({
-          code: ErrorCode.ValidationError,
-          errors: errors.map(error => error.toString()),
-          meta: { errors },
-        });
-      },
-      transform: true,
-      whitelist: false,
-    }),
-  );
 
   app.enableShutdownHooks();
 

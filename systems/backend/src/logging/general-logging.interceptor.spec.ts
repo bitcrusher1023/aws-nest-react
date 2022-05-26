@@ -13,8 +13,8 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import gql from 'graphql-tag';
 import type { Mock } from 'jest-mock';
 
-import { createRequestAgent } from '../test-helpers/create-request-agent';
 import { expectResponseCode } from '../test-helpers/expect-response-code';
+import { getRequestAgent } from '../test-helpers/get-request-agent';
 import {
   startTestingServer,
   withNestModuleBuilderContext,
@@ -110,7 +110,7 @@ describe('General logging interceptor', () => {
     });
   });
   it('query rest endpoint', async () => {
-    await createRequestAgent(app.getHttpServer())
+    await getRequestAgent(app.getHttpServer())
       .get('/test-case/happy-endpoint')
       .expect(expectResponseCode({ expectedStatusCode: 200 }));
     expect(logger.log).toHaveBeenCalled();

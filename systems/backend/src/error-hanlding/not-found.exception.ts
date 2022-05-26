@@ -5,7 +5,7 @@ import {
   exceptionPayloadToResponse,
 } from './exception-payload';
 
-export class BadRequestException extends HttpException {
+export class NotFoundException extends HttpException {
   debugDetails?: Record<string, unknown> | undefined; // Only visible on access log
 
   constructor(response: ExceptionPayload) {
@@ -16,7 +16,7 @@ export class BadRequestException extends HttpException {
         errors,
         meta,
       }),
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.NOT_FOUND,
     );
     this.debugDetails = debugDetails;
   }

@@ -3,12 +3,11 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GqlArgumentsHost } from '@nestjs/graphql';
-import { ApolloError, toApolloError } from 'apollo-server-errors';
+import type { ApolloError } from 'apollo-server-errors';
 import type { Request, Response } from 'express';
 import { omit } from 'ramda';
 import { serializeError } from 'serialize-error';
@@ -17,7 +16,10 @@ import { AppEnvironment } from '../config/config.constants';
 import { err } from '../logging/formats/err';
 import { graphql } from '../logging/formats/graphql';
 import { http } from '../logging/formats/http';
+import { ApolloException } from './apollo.exception';
 import { ErrorCode } from './error-code.constant';
+import type { ExceptionPayload } from './exception-payload';
+import { InternalServerErrorException } from './internal-server-error.exception';
 
 @Catch()
 export class GeneralExceptionFilter implements ExceptionFilter {
@@ -34,21 +36,30 @@ export class GeneralExceptionFilter implements ExceptionFilter {
 
   private catchGraphqlError(
     exception: Error & {
-      extensions?: Record<string, any>;
+      extensions?: any;
+      response?: ExceptionPayload;
     },
     context: ArgumentsHost,
   ) {
     const ctx = GqlArgumentsHost.create(context);
 
+    const [error] = exception.response?.errors ?? [];
+
     const isApolloError = exception.extensions;
+
     const apolloError: ApolloError = (
       isApolloError
         ? exception
-        : toApolloError(exception, ErrorCode.UnhandledError)
+        : new ApolloException({
+            code: error?.code ?? ErrorCode.UnhandledError,
+            errors: exception.response?.errors ?? [
+              { detail: exception.message, title: exception.name },
+            ],
+          })
     ) as ApolloError;
-    if (!isApolloError) apolloError.originalError = exception;
     const { req, res } = ctx.getContext<{ req: Request; res: Response }>();
     const end = new Date().getTime();
+
     const { startAt = end } = res?.locals ?? {};
     this.logger.error(
       {
@@ -60,7 +71,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
       },
       exception.stack,
     );
-    throw apolloError;
+    return apolloError;
   }
 
   private catchHttpError(exception: Error, context: ArgumentsHost) {
@@ -76,7 +87,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
         ? exception
         : new InternalServerErrorException({
             code: ErrorCode.UnhandledError,
-            errors: [exception.message],
+            errors: [{ detail: exception.message, title: exception.name }],
             meta: { exception: omit(['stack'])(serializeError(exception)) },
           });
     httpException.stack = exception.stack as string;

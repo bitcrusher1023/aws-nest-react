@@ -1,17 +1,33 @@
 import { describe, expect, it } from '@jest/globals';
-import { getApolloServer } from '@nestjs/apollo';
 import { Controller, Get, ImATeapotException } from '@nestjs/common';
-import { Field, ID, ObjectType, Query, Resolver } from '@nestjs/graphql';
-import { ApolloError } from 'apollo-server-errors';
+import {
+  Args,
+  Field,
+  ID,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from '@nestjs/graphql';
+import { randomUUID } from 'crypto';
 import gql from 'graphql-tag';
 
-import { createRequestAgent } from '../test-helpers/create-request-agent';
 import { expectResponseCode } from '../test-helpers/expect-response-code';
+import { getApolloServer } from '../test-helpers/get-apollo-server';
+import { getGraphqlErrorCodes } from '../test-helpers/get-graphql-error';
+import { getRequestAgent } from '../test-helpers/get-request-agent';
 import { withNestServerContext } from '../test-helpers/nest-app-context';
-import { ErrorCode } from './error-code.constant';
+import { ApolloException } from './apollo.exception';
 
 @ObjectType()
 class TestModel {
+  @Field(() => ID)
+  id!: string;
+}
+
+@InputType()
+class TestInput {
   @Field(() => ID)
   id!: string;
 }
@@ -25,7 +41,15 @@ class TestResolver {
 
   @Query(() => TestModel)
   testQueryWithApolloError() {
-    throw new ApolloError('Foobar', 'ERR_CREATE_RECORD');
+    throw new ApolloException({
+      code: 'ERR_CREATE_RECORD' as any,
+      errors: [{ title: 'Foobar' }],
+    });
+  }
+
+  @Mutation(() => TestModel)
+  testMutation(@Args('data') data: TestInput) {
+    return { data, id: randomUUID() };
   }
 }
 
@@ -39,7 +63,7 @@ class TestController {
   @Get('/418')
   get418() {
     throw new ImATeapotException({
-      code: ErrorCode.UnhandledError,
+      code: 'ERR_TEA_POT_IS_HOT',
       errors: ['Foobar'],
       meta: {},
     });
@@ -53,96 +77,133 @@ const appContext = withNestServerContext({
 });
 
 describe('General exception filter', () => {
-  it('query rest with unexpected-error', async () => {
-    const app = appContext.app;
-    const { body } = await createRequestAgent(app.getHttpServer())
-      .get('/test-case/unexpected-error')
-      .expect(expectResponseCode({ expectedStatusCode: 500 }));
-    expect(body).toStrictEqual({
-      code: 'ERR_UNHANDLED',
-      errors: ['Fake Error!!!'],
-      meta: {
-        exception: {
-          message: 'Fake Error!!!',
-          name: 'Error',
-        },
-      },
-      stack: expect.any(String),
-    });
-  });
-  it('query rest with http error', async () => {
-    const app = appContext.app;
-    const { body } = await createRequestAgent(app.getHttpServer())
-      .get('/test-case/418')
-      .expect(expectResponseCode({ expectedStatusCode: 418 }));
-    expect(body).toStrictEqual({
-      code: 'ERR_UNHANDLED',
-      errors: ['Foobar'],
-      meta: {},
-      stack: expect.any(String),
-    });
-  });
-  it('query graphql endpoint that throw unknown error', async () => {
-    const app = appContext.app;
-    const server = getApolloServer(app);
-    const UNDEFINED = gql`
-      query Test {
-        testQuery {
-          id
-        }
-      }
-    `;
-    const resp = await server.executeOperation({
-      query: UNDEFINED,
-    });
-    expect(resp.errors).toBeDefined();
-    expect(resp.errors).toStrictEqual([
-      {
-        extensions: {
-          code: 'ERR_UNHANDLED',
+  describe('rest', () => {
+    it('should response code ERR_UNHANDLED when endpoint response generic error', async () => {
+      const app = appContext.app;
+      const { body } = await getRequestAgent(app.getHttpServer())
+        .get('/test-case/unexpected-error')
+        .expect(expectResponseCode({ expectedStatusCode: 500 }));
+      expect(body).toStrictEqual({
+        errors: [
+          {
+            code: 'ERR_UNHANDLED',
+            detail: 'Fake Error!!!',
+            title: 'Error',
+          },
+        ],
+        meta: {
           exception: {
-            originalError: expect.anything(),
+            message: 'Fake Error!!!',
+            name: 'Error',
           },
         },
-        locations: [
-          {
-            column: 3,
-            line: 2,
-          },
-        ],
-        message: 'Fake Error!!!',
-        path: ['testQuery'],
-      },
-    ]);
-  });
-  it('query graphql endpoint that throw apollo error', async () => {
-    const app = appContext.app;
-    const server = getApolloServer(app);
-    const UNDEFINED = gql`
-      query Test {
-        testQueryWithApolloError {
-          id
-        }
-      }
-    `;
-    const resp = await server.executeOperation({
-      query: UNDEFINED,
+        stack: expect.any(String),
+      });
     });
-    expect(resp.errors).toBeDefined();
-    expect(resp.errors).toStrictEqual([
-      {
-        extensions: {
-          code: 'ERR_CREATE_RECORD',
-        },
-        locations: [
-          {
-            column: 3,
-            line: 2,
+    it('should forward response code when endpoint have specific error code', async () => {
+      const app = appContext.app;
+      const { body } = await getRequestAgent(app.getHttpServer())
+        .get('/test-case/418')
+        .expect(expectResponseCode({ expectedStatusCode: 418 }));
+      expect(body).toStrictEqual({
+        code: 'ERR_TEA_POT_IS_HOT',
+        errors: ['Foobar'],
+        meta: {},
+        stack: expect.any(String),
+      });
+    });
+  });
+
+  describe('graphql', () => {
+    it('call graphql query endpoint that throw unknown error', async () => {
+      const app = appContext.app;
+      const server = getApolloServer(app);
+      const UNDEFINED = gql`
+        query Test {
+          testQuery {
+            id
+          }
+        }
+      `;
+      const resp = await server.executeOperation({
+        query: UNDEFINED,
+      });
+      expect(resp.errors).toBeDefined();
+      expect(resp.errors).toStrictEqual([
+        {
+          extensions: {
+            code: 'ERR_UNHANDLED',
+            errors: [
+              {
+                detail: 'Fake Error!!!',
+                title: 'Error',
+              },
+            ],
           },
-        ],
-        message: 'Foobar',
-        path: ['testQueryWithApolloError'],
-      },
-    ]);
+          locations: [
+            {
+              column: 3,
+              line: 2,
+            },
+          ],
+          message: 'Graphql Error',
+          path: ['testQuery'],
+        },
+      ]);
+    });
+    it('call graphql query endpoint that throw apollo error', async () => {
+      const app = appContext.app;
+      const server = getApolloServer(app);
+      const UNDEFINED = gql`
+        query Test {
+          testQueryWithApolloError {
+            id
+          }
+        }
+      `;
+      const resp = await server.executeOperation({
+        query: UNDEFINED,
+      });
+      expect(resp.errors).toBeDefined();
+      expect(resp.errors).toStrictEqual([
+        {
+          extensions: {
+            code: 'ERR_CREATE_RECORD',
+            errors: [
+              {
+                title: 'Foobar',
+              },
+            ],
+          },
+          locations: [
+            {
+              column: 3,
+              line: 2,
+            },
+          ],
+          message: 'Graphql Error',
+          path: ['testQueryWithApolloError'],
+        },
+      ]);
+    });
+    it('call graphql mutation endpoint and missing data', async () => {
+      const app = appContext.app;
+      const server = getApolloServer(app);
+      const TEST_MUTATION = gql`
+        mutation Test($data: TestInput!) {
+          testMutation(data: $data) {
+            id
+          }
+        }
+      `;
+      const resp = await server.executeOperation({
+        query: TEST_MUTATION,
+        variables: {
+          data: {},
+        },
+      });
+      expect(resp.errors).toBeDefined();
+      expect(getGraphqlErrorCodes(resp.errors)).toEqual(['BAD_USER_INPUT']);
+    });
   });
 });

@@ -41,14 +41,14 @@ async function setupDB(testId) {
 
 class E2ETestEnvironment extends TestEnvironment {
   constructor(config, context) {
-    super(config);
+    super(config, context);
     this.testPath = context['testPath'];
   }
 
   async setup() {
     await super.setup();
     const testId = generateTestId(this.testPath);
-    this.global['e2eConfig'] = {
+    this.global['testConfig'] = {
       db: {
         schema: await setupDB(testId),
       },
