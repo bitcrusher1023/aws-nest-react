@@ -1,4 +1,3 @@
 #!/bin/sh
 
-set -ex
 npx commitlint --edit "$1"

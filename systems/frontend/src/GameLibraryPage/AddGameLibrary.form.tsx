@@ -18,7 +18,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
+import React, { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import {
   Control,
   Controller,
@@ -78,8 +78,8 @@ export function GameBoxArtUploadField({
   });
 
   const handleFileUpload = useCallback(
-    async event => {
-      const [sourceFile] = event.target.files;
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const [sourceFile] = event.target.files ?? [];
       const { data, errors } = await prePareUploadGameBoxArt({
         variables: { fileName: sourceFile.name },
       });
@@ -200,7 +200,7 @@ function GameNumberOfPlayersField({
   });
 
   const onValueChange = useCallback(
-    event => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       const numberValue = parseInt(event.target.value, 10);
       if (!isNaN(numberValue)) return onChange(numberValue);
       return null;

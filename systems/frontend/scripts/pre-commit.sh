@@ -1,3 +1,3 @@
-#!/bin/sh
-set -ex
+#!/usr/bin/env bash
+
 npx lint-staged

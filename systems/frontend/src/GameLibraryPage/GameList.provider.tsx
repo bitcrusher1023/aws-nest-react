@@ -90,7 +90,7 @@ export default function GameListProvider({
     variables: { limit: 8, offset: currentOffSet, userId },
   });
   const setFilter = useCallback(
-    async (_: unknown, platform) => {
+    async (_: unknown, platform: string) => {
       await refetch({
         offset: 0,
         platform: platform === 'ALL' ? null : platform,
@@ -101,7 +101,7 @@ export default function GameListProvider({
     [refetch],
   );
   const setPage = useCallback(
-    async (_, page: number) => {
+    async (_: unknown, page: number) => {
       const { limit } = variables!;
       const newOffset = (page - 1) * limit;
       await refetch({
