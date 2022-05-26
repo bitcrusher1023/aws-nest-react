@@ -20,7 +20,7 @@
     "@cypress/react": "5.12.4",
     "@cypress/vite-dev-server": "2.2.2",
     "@hookform/devtools": "4.1.0",
-    "@stylelint/postcss-css-in-js": "0.37.2",
+    "@stylelint/postcss-css-in-js": "0.38.0",
     "@types/apollo-upload-client": "17.0.0",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.2",
