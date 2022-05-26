@@ -18,7 +18,7 @@
     "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
     "@cypress/react": "5.12.4",
-    "@cypress/vite-dev-server": "2.2.2",
+    "@cypress/vite-dev-server": "2.2.3",
     "@hookform/devtools": "4.1.0",
     "@stylelint/postcss-css-in-js": "0.38.0",
     "@types/apollo-upload-client": "17.0.0",
