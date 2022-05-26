@@ -58,7 +58,7 @@
     "jest": "28.1.0",
     "jest-environment-node": "28.1.0",
     "jest-mock": "28.1.0",
-    "supertest": "6.2.2",
+    "supertest": "6.2.3",
     "ts-jest": "28.0.3",
     "ts-loader": "9.2.9",
     "ts-node": "10.7.0",
