@@ -18,7 +18,7 @@ class TypeOrmConfigService implements TypeOrmOptionsFactory {
   ) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const { db } = this.testState?.testConfig;
+    const { db } = this.testState?.testConfig ?? {};
     const isTest = [AppEnvironment.TEST].includes(this.config.get('env')!);
     const { connectionURL, type } = this.config.get('database');
     return {

@@ -1,4 +1,4 @@
 #!/bin/sh
 
 set -e
-npm run dev
+npm run start

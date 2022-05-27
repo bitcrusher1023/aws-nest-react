@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "types": ["cypress"]
   },
   "extends": "@busybox/tsconfig/tsconfig-react.json",
   "include": ["src", "cypress/global.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

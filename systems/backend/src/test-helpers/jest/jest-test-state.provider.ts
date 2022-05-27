@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
@@ -15,13 +14,5 @@ export class JestTestStateProvider {
 
   get testId() {
     return this.randomTestId;
-  }
-
-  get testName() {
-    return expect
-      .getState()
-      ?.currentTestName?.toLowerCase()
-      .split(' ')
-      .join('-');
   }
 }

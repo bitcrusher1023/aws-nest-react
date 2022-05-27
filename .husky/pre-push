@@ -1,4 +1,5 @@
 #!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
 
 set -ex
 npx lerna exec --concurrency 1 --stream -- bash scripts/pre-push.sh
