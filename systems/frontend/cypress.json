@@ -7,6 +7,7 @@
   },
   "defaultCommandTimeout": 60000,
   "env": {
+    "DISABLE_ESLINT_PLUGIN": "true",
     "NODE_ENV": "test",
     "coverage": false
   },
