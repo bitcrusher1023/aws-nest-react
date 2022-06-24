@@ -41,7 +41,7 @@
     "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
     "@jest/globals": "28.1.1",
-    "@nestjs/cli": "8.2.7",
+    "@nestjs/cli": "8.2.8",
     "@nestjs/schematics": "8.0.11",
     "@nestjs/testing": "8.4.7",
     "@types/aws-lambda": "8.10.101",
