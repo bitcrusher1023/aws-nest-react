@@ -14,7 +14,7 @@
     "@nestjs/typeorm": "8.0.4",
     "@vendia/serverless-express": "4.9.0",
     "apollo-server-errors": "3.3.1",
-    "apollo-server-express": "3.9.0",
+    "apollo-server-express": "3.10.0",
     "aws-lambda": "1.0.7",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
@@ -34,7 +34,7 @@
     "typeorm": "0.2.45",
     "typeorm-naming-strategies": "4.1.0",
     "uuid": "8.3.2",
-    "winston": "3.8.0"
+    "winston": "3.8.1"
   },
   "description": "",
   "devDependencies": {
