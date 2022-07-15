@@ -34,14 +34,14 @@
     "typeorm": "0.2.45",
     "typeorm-naming-strategies": "4.1.0",
     "uuid": "8.3.2",
-    "winston": "3.8.0"
+    "winston": "3.8.1"
   },
   "description": "",
   "devDependencies": {
     "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
     "@jest/globals": "28.1.2",
-    "@nestjs/cli": "8.2.8",
+    "@nestjs/cli": "9.0.0",
     "@nestjs/schematics": "8.0.11",
     "@nestjs/testing": "8.4.7",
     "@types/aws-lambda": "8.10.101",
