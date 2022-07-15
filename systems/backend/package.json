@@ -7,7 +7,7 @@
     "@nestjs/common": "8.4.7",
     "@nestjs/config": "2.1.0",
     "@nestjs/core": "8.4.7",
-    "@nestjs/graphql": "10.0.16",
+    "@nestjs/graphql": "10.0.18",
     "@nestjs/platform-express": "8.4.7",
     "@nestjs/swagger": "5.2.1",
     "@nestjs/terminus": "8.1.0",
@@ -34,7 +34,7 @@
     "typeorm": "0.2.45",
     "typeorm-naming-strategies": "4.1.0",
     "uuid": "8.3.2",
-    "winston": "3.8.0"
+    "winston": "3.8.1"
   },
   "description": "",
   "devDependencies": {
