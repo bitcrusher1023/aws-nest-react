@@ -10,7 +10,7 @@
     "@nestjs/graphql": "10.0.16",
     "@nestjs/platform-express": "8.4.7",
     "@nestjs/swagger": "5.2.1",
-    "@nestjs/terminus": "8.1.0",
+    "@nestjs/terminus": "8.1.1",
     "@nestjs/typeorm": "8.0.4",
     "@vendia/serverless-express": "4.9.0",
     "apollo-server-errors": "3.3.1",
