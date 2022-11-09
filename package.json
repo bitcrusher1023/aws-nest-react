@@ -1,7 +1,7 @@
 {
   "author": "",
   "dependencies": {
-    "lerna": "6.0.1"
+    "lerna": "6.0.3"
   },
   "description": "",
   "devDependencies": {
