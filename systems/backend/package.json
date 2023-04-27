@@ -28,7 +28,7 @@
     "ramda": "0.29.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "5.0.0",
-    "rxjs": "7.8.0",
+    "rxjs": "7.8.1",
     "serialize-error": "8.1.0",
     "swagger-ui-express": "4.6.2",
     "typeorm": "0.2.45",
