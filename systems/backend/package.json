@@ -5,7 +5,7 @@
     "@aws-sdk/s3-request-presigner": "3.348.0",
     "@nestjs/apollo": "11.0.6",
     "@nestjs/common": "8.4.7",
-    "@nestjs/config": "2.3.2",
+    "@nestjs/config": "2.3.3",
     "@nestjs/core": "8.4.7",
     "@nestjs/graphql": "10.2.0",
     "@nestjs/platform-express": "8.4.7",
