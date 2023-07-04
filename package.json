@@ -15,7 +15,7 @@
     "is-ci": "3.0.1",
     "lint-staged": "13.2.3",
     "markdownlint-cli2": "0.8.1",
-    "mrm": "4.1.14",
+    "mrm": "4.1.17",
     "prettier": "2.6.2"
   },
   "engines": {
