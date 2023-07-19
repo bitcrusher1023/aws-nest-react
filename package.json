@@ -9,7 +9,7 @@
     "@busybox/prettier-config": "2023.7.14",
     "@commitlint/cli": "17.6.6",
     "@commitlint/config-lerna-scopes": "17.6.6",
-    "commitlint": "17.6.6",
+    "commitlint": "17.6.7",
     "eslint": "8.16.0",
     "husky": "8.0.0",
     "is-ci": "3.0.1",
