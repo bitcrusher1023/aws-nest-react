@@ -5,7 +5,7 @@
     "@pulumi/pulumi": "3.76.1",
     "@pulumi/random": "4.13.2",
     "@types/mocha": "10.0.1",
-    "handlebars": "4.7.7",
+    "handlebars": "4.7.8",
     "lodash.camelcase": "4.3.0",
     "lodash.kebabcase": "4.1.1",
     "mocha": "10.2.0",
