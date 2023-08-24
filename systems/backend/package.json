@@ -40,7 +40,7 @@
   "devDependencies": {
     "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
-    "@jest/globals": "29.6.3",
+    "@jest/globals": "29.6.4",
     "@nestjs/cli": "10.1.14",
     "@nestjs/schematics": "9.2.0",
     "@nestjs/testing": "8.4.7",
