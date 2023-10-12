@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@pulumi/aws": "6.4.1",
+    "@pulumi/aws": "6.5.0",
     "@pulumi/awsx": "1.0.6",
     "@pulumi/pulumi": "3.88.1",
     "@pulumi/random": "4.14.0",
