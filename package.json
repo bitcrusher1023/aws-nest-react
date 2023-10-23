@@ -8,7 +8,7 @@
     "@busybox/eslint-config": "5.10.0",
     "@busybox/prettier-config": "2023.7.14",
     "@commitlint/cli": "18.0.0",
-    "@commitlint/config-lerna-scopes": "17.7.0",
+    "@commitlint/config-lerna-scopes": "18.0.0",
     "commitlint": "18.0.0",
     "eslint": "8.16.0",
     "husky": "8.0.0",
