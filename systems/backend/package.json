@@ -12,7 +12,7 @@
     "@nestjs/swagger": "7.1.17",
     "@nestjs/terminus": "8.1.1",
     "@nestjs/typeorm": "8.0.5",
-    "@vendia/serverless-express": "4.10.5",
+    "@vendia/serverless-express": "4.12.6",
     "apollo-server-errors": "3.3.1",
     "apollo-server-express": "3.13.0",
     "aws-lambda": "1.0.7",
