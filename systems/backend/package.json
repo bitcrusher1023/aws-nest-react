@@ -51,7 +51,7 @@
     "@types/node": "20.10.5",
     "@types/passport-jwt": "3.0.13",
     "@types/ramda": "0.29.9",
-    "@types/supertest": "2.0.16",
+    "@types/supertest": "6.0.0",
     "@types/uuid": "9.0.7",
     "eslint": "8.16.0",
     "graphql-tag": "2.12.6",
