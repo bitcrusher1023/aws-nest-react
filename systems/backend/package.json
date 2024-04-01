@@ -50,7 +50,7 @@
     "@types/luxon": "2.3.2",
     "@types/node": "20.11.30",
     "@types/passport-jwt": "4.0.1",
-    "@types/ramda": "0.29.11",
+    "@types/ramda": "0.29.12",
     "@types/supertest": "6.0.2",
     "@types/uuid": "9.0.8",
     "eslint": "8.16.0",
