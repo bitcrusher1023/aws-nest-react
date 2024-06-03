@@ -30,7 +30,7 @@
     "rimraf": "5.0.7",
     "rxjs": "7.8.1",
     "serialize-error": "8.1.0",
-    "swagger-ui-express": "5.0.0",
+    "swagger-ui-express": "5.0.1",
     "typeorm": "0.2.45",
     "typeorm-naming-strategies": "4.1.0",
     "uuid": "9.0.1",
