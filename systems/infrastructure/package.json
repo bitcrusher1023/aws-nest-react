@@ -24,7 +24,7 @@
     "@types/chai": "4.3.18",
     "@types/lodash.camelcase": "4.3.9",
     "@types/lodash.kebabcase": "4.1.9",
-    "@types/node": "22.5.0",
+    "@types/node": "22.5.1",
     "babel-plugin-transform-typescript-metadata": "0.3.2",
     "chai": "5.1.1",
     "eslint": "8.16.0",
