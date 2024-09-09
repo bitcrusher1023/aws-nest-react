@@ -3,7 +3,7 @@
     "@pulumi/aws": "6.50.1",
     "@pulumi/awsx": "2.14.0",
     "@pulumi/pulumi": "3.131.0",
-    "@pulumi/random": "4.16.3",
+    "@pulumi/random": "4.16.4",
     "@types/mocha": "10.0.7",
     "handlebars": "4.7.8",
     "lodash.camelcase": "4.3.0",
