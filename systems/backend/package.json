@@ -1,7 +1,7 @@
 {
   "author": "",
   "dependencies": {
-    "@aws-sdk/client-s3": "3.658.1",
+    "@aws-sdk/client-s3": "3.662.0",
     "@aws-sdk/s3-request-presigner": "3.658.1",
     "@nestjs/apollo": "12.2.0",
     "@nestjs/common": "8.4.7",
