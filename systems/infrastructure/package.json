@@ -2,7 +2,7 @@
   "dependencies": {
     "@pulumi/aws": "6.56.1",
     "@pulumi/awsx": "2.16.1",
-    "@pulumi/pulumi": "3.136.1",
+    "@pulumi/pulumi": "3.137.0",
     "@pulumi/random": "4.16.7",
     "@types/mocha": "10.0.9",
     "handlebars": "4.7.8",
