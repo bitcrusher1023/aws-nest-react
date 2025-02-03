@@ -11,7 +11,7 @@
     "@nestjs/platform-express": "8.4.7",
     "@nestjs/swagger": "11.0.3",
     "@nestjs/terminus": "11.0.0",
-    "@nestjs/typeorm": "8.0.5",
+    "@nestjs/typeorm": "11.0.0",
     "@vendia/serverless-express": "4.12.6",
     "apollo-server-errors": "3.3.1",
     "apollo-server-express": "3.13.0",
