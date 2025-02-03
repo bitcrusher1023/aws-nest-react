@@ -11,7 +11,7 @@
     "@commitlint/config-lerna-scopes": "19.7.0",
     "commitlint": "19.6.1",
     "eslint": "8.16.0",
-    "husky": "8.0.0",
+    "husky": "9.1.7",
     "is-ci": "4.1.0",
     "lint-staged": "15.4.1",
     "markdownlint-cli2": "0.17.2",
