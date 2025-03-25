@@ -7,7 +7,7 @@
     "@nestjs/common": "11.0.12",
     "@nestjs/config": "4.0.1",
     "@nestjs/core": "11.0.12",
-    "@nestjs/graphql": "13.0.3",
+    "@nestjs/graphql": "13.0.4",
     "@nestjs/platform-express": "11.0.12",
     "@nestjs/swagger": "11.0.7",
     "@nestjs/terminus": "11.0.0",
