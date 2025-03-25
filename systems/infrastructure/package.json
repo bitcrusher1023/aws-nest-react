@@ -21,7 +21,7 @@
     "@babel/preset-typescript": "7.26.0",
     "@busybox/eslint-config": "5.10.0",
     "@busybox/tsconfig": "1.7.1",
-    "@types/chai": "5.2.0",
+    "@types/chai": "5.2.1",
     "@types/lodash.camelcase": "4.3.9",
     "@types/lodash.kebabcase": "4.1.9",
     "@types/node": "22.13.13",
