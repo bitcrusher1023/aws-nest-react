@@ -42,7 +42,7 @@
     "@busybox/tsconfig": "1.7.1",
     "@jest/globals": "30.1.2",
     "@nestjs/cli": "11.0.10",
-    "@nestjs/schematics": "11.0.7",
+    "@nestjs/schematics": "11.0.8",
     "@nestjs/testing": "11.1.6",
     "@types/aws-lambda": "8.10.153",
     "@types/convict": "6.1.6",
