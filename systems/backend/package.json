@@ -43,7 +43,7 @@
     "@jest/globals": "30.2.0",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
-    "@nestjs/testing": "11.1.6",
+    "@nestjs/testing": "11.1.7",
     "@types/aws-lambda": "8.10.156",
     "@types/convict": "6.1.6",
     "@types/express": "5.0.3",
