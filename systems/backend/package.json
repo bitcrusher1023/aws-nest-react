@@ -46,7 +46,7 @@
     "@nestjs/testing": "11.1.7",
     "@types/aws-lambda": "8.10.156",
     "@types/convict": "6.1.6",
-    "@types/express": "5.0.3",
+    "@types/express": "5.0.4",
     "@types/luxon": "3.7.1",
     "@types/node": "24.9.1",
     "@types/passport-jwt": "4.0.1",
