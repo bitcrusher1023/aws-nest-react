@@ -44,7 +44,7 @@
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
     "@nestjs/testing": "11.1.8",
-    "@types/aws-lambda": "8.10.157",
+    "@types/aws-lambda": "8.10.158",
     "@types/convict": "6.1.6",
     "@types/express": "5.0.5",
     "@types/luxon": "3.7.1",
