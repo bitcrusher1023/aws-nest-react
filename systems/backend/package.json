@@ -6,7 +6,7 @@
     "@nestjs/apollo": "13.2.4",
     "@nestjs/common": "11.1.13",
     "@nestjs/config": "4.0.3",
-    "@nestjs/core": "11.1.13",
+    "@nestjs/core": "11.1.14",
     "@nestjs/graphql": "13.2.4",
     "@nestjs/platform-express": "11.1.13",
     "@nestjs/swagger": "11.2.6",
