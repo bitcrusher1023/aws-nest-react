@@ -5,7 +5,7 @@ jobs:
     steps:
       - id: metadata
         name: Dependabot metadata
-        uses: dependabot/fetch-metadata@v3.0.0
+        uses: dependabot/fetch-metadata@v3.1.0
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
       - env:
