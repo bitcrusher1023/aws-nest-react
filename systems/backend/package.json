@@ -54,7 +54,7 @@
     "@types/supertest": "7.2.0",
     "@types/uuid": "11.0.0",
     "eslint": "8.16.0",
-    "graphql-tag": "2.12.6",
+    "graphql-tag": "2.12.7",
     "jest": "28.1.0",
     "jest-environment-node": "30.4.1",
     "jest-mock": "28.1.0",
