@@ -33,7 +33,7 @@
     "swagger-ui-express": "5.0.1",
     "typeorm": "1.0.0",
     "typeorm-naming-strategies": "4.1.0",
-    "uuid": "14.0.0",
+    "uuid": "14.0.1",
     "winston": "3.19.0"
   },
   "description": "",
