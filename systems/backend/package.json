@@ -4,7 +4,7 @@
     "@aws-sdk/client-s3": "3.1136.0",
     "@aws-sdk/s3-request-presigner": "3.1136.0",
     "@nestjs/apollo": "14.0.1",
-    "@nestjs/common": "12.0.3",
+    "@nestjs/common": "12.0.4",
     "@nestjs/config": "12.0.0",
     "@nestjs/core": "12.0.3",
     "@nestjs/graphql": "14.0.1",
